@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Card Listings</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Style the top navigation bar */
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    /* Style the topnav links */
+    .topnav a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    /* Change color on hover */
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    /* Style the cardlisting content */
+    .cardlisting {
+      background-color: #f1f1f1;
+      color: #012169;
+      padding: 10px;
+      margin: 15px;
+      border: 15px #012169;
+    }
+  </style>
+
+  <div class="topnav">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('cards.cardlistings') }}">Cards</a>
+    <a href="#">Link</a>
+  </div>
+
+
+  <body>
+    <h2>Card Listings</h2>
+
+    <div class="cardlisting">
+      <h3>Card Name</h3>
+      <hr />
+      <h4>Card Price: $</h4>
+      <p>A short description of the card</p>
+    </div>
+
+    <div class="cardlisting">
+      <h3>Card Name</h3>
+      <hr />
+      <h4>Card Price: $</h4>
+      <p>A short description of the card</p>
+    </div>
+    
+  </body>
+
+
+</html>
