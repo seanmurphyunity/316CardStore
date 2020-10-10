@@ -4,7 +4,9 @@ import MiniAmazonGroup14.auth
 
 import MiniAmazonGroup14.cards
 
-#import db
+import MiniAmazonGroup14.test
+
+import MiniAmazonGroup14.db
 
 app = Flask(__name__)
 
@@ -16,8 +18,9 @@ def index():
 def cardlist():
   return render_template('cardlist.html')
 
-app.register_blueprint(auth.bp)
-app.register_blueprint(cards.bp)
+app.register_blueprint(MiniAmazonGroup14.auth.bp)
+app.register_blueprint(MiniAmazonGroup14.cards.bp)
+app.register_blueprint(MiniAmazonGroup14.test.bp)
 
 #db.createtest()
 #db.posttest()
