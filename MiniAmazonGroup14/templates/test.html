@@ -1,69 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Card Shop</title>
-  <style>
-    body {
-      margin: 20px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+{% extends 'base.html' %}
 
-    /* Style the top navigation bar */
-    .topnav {
-      overflow: hidden;
-      background-color: #333;
-    }
-
-    /* Style the topnav links */
-    .topnav a {
-      float: left;
-      display: block;
-      color: #f2f2f2;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-
-    /* Change color on hover */
-    .topnav a:hover {
-      background-color: #ddd;
-      color: black;
-    }
-
-    /* Style the homepage content */
-    .homepage {
-      background-color: #ffffff;
-      padding: 20px;
-      border: 10px;
-    }
-
-    .homepage a {
-      background-color: #f1f1f1;
-      color: black;
-      padding: 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .homepage a:hover {
-      background-color: black;
-      color: white;
-    } 
-  </style>
-
-  <div class="topnav">
-    <a href="{{ url_for('index') }}">Home</a>
-    <a href="{{ url_for('cards.cardlistings') }}">Cards</a>
-    <a href="{{ url_for('test.test') }}">Test</a>
-  </div>
   {% block content %}
     {% for test in tests %}
         <article>
         <h1>{{ test[1] }}</h1>
         <h2>{{ test[2] }}</h2>
         <h2>{{ test[3] }}</h2>
-=        </article>
+        </article>
         {% if not loop.last %}
         <hr>
         {% endif %}

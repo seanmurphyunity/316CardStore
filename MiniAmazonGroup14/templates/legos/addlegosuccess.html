@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+  <style>
+      .addlegosuccess a {
+      background-color: #f1f1f1;
+      color: black;
+      padding: 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .addlegosuccess a:hover {
+      background-color: #012169;
+      color: white;
+    } 
+  </style>
+  <h1>You successfully posted your lego set!</h1>
+  <br>
+  <div class="addlegosuccess">
+      <!-- make this view sets you are selling once we make filters-->
+    <a href="{{ url_for('legos.legolistings') }}">View Sets For Sale</a>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+  <style>
+    
+  </style>
+  <h1>List a Lego Set</h1>
+  <form method="post">
+    <label for="id">ID</label>
+    <input name="id" id="id" required>
+    <br>
+    <label for="name">Set Name</label>
+    <input name="name" id="name" required>
+    <br>
+    <label for="price">Price</label>
+    <input name="price" id="price" required>
+    <br>
+    <label for="theme">Theme</label>
+    <input name="theme" id="theme" required>
+    <br>
+    <label for="year">Year</label>
+    <input name="year" id="year" required>
+    <br>
+    <label for="minifigs">Minifigs</label>
+    <input name="minifigs" id="minifigs" required>
+    <br>
+    <label for="pieces">Pieces</label>
+    <input name="pieces" id="pieces" required>
+    <br>
+    <label for="image">Image URL</label>
+    <input name="image" id="image" required>
+    <br>
+    <input type="submit" value="Post">
+  </form>
+  
+
+{% endblock %}
