@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+  <style>
+
+  </style>
+  <h2>Example Header</h2>
+  <br>
+
+  <!-- getting data and creating a div for each row-->
+  <div>
+    {% for example in examples %}
+        <div>
+        <h1>{{ example[0] }} </h1>
+        <h1>{{ example[1] }}</h1>
+        </div>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- user inputted data -->
+  <form method="post">
+    <label for="exampleformfield">First Field</label>
+    <input type="exampleformfield" name="exampleformfield" id="exampleformfield" required>
+    <br>
+    <label for="exformfield">Second Field</label>
+    <input type="exformfield" name="exformfield" id="exformfield" required>
+  </form>
+
+{% endblock %}
