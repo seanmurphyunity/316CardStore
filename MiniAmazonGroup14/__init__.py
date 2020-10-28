@@ -6,6 +6,8 @@ import MiniAmazonGroup14.legos
 
 import MiniAmazonGroup14.test
 
+import MiniAmazonGroup14.cart
+
 import MiniAmazonGroup14.db
 
 app = Flask(__name__)
@@ -18,6 +20,7 @@ def index():
 app.register_blueprint(MiniAmazonGroup14.auth.bp)
 app.register_blueprint(MiniAmazonGroup14.legos.bp)
 app.register_blueprint(MiniAmazonGroup14.test.bp)
+app.register_blueprint(MiniAmazonGroup14.cart.bp)
 
 #db.createtest()
 #db.posttest()
