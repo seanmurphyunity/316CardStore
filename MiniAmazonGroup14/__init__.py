@@ -11,6 +11,7 @@ import MiniAmazonGroup14.cart
 import MiniAmazonGroup14.db
 
 app = Flask(__name__)
+app.config.from_mapping(SECRET_KEY='dev')
 
 @app.route('/')
 def index():

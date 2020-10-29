@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, render_template, request, redirect, url_for
+    Blueprint, render_template, request, redirect, url_for, session
 )
 import MiniAmazonGroup14.db
 
@@ -56,15 +56,22 @@ def addtocart():
     #needs to link to added to cartpage 
     if request.method == 'POST':
         #cartid = request.form['id']
-        #live variable 
-        cartid = 1003
+        #live variable
+        try: 
+            sessionid = session['email']
+        except:
+            print('not logged in') 
+        mydb = MiniAmazonGroup14.db.getdb()
+        mycursor = mydb.cursor()
+        mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
+        cart = mycursor.fetchone()[0]
+        print(mycursor.fetchone())
         legoid = request.form['legoid']
         quantity = int(request.form['quantity'])
         #link from legopage
         print(quantity)
-        mydb = MiniAmazonGroup14.db.getdb()
-        mycursor = mydb.cursor()
-        mycursor.execute('SELECT * FROM cart_item WHERE cartid = %s and legoid =%s' , (cartid, legoid))
+        
+        mycursor.execute('SELECT * FROM cart_item WHERE cartid = %s and legoid =%s' , (cart, legoid))
         item = mycursor.fetchone()
         sql1 = "SELECT sum(quantity) FROM sells where legoid = %s"
         val2 = (legoid,)
@@ -77,14 +84,14 @@ def addtocart():
                 #print(user)
                 #error = 'User already registered'
                 sql = "UPDATE cart_item SET quantity = %s where cartid = %s and legoid = %s"
-                val = (quantity, cartid, legoid)
+                val = (quantity, cart, legoid)
                 mycursor.execute(sql, val)
                 mydb.commit()
                 error = "updated quanity"
                 return render_template('cart/addedtocart.html')
             if error is None:
                 sql = "INSERT INTO cart_item(cartid, legoid, quantity) VALUES (%s, %s, %s)"
-                val = (cartid, legoid, quantity)
+                val = (cart, legoid, quantity)
                 mycursor.execute(sql, val)
                 mydb.commit()
             

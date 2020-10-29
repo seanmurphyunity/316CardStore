@@ -59,7 +59,7 @@
         
         <!--make button link to lego page-->
     <th> ${{ item[1] }} </th>
-    <form method="post">
+    <form name = 'remove' method="post">
         <input type="hidden" name= "legoid" id = "legoid" value = {{item[3]}}>
         <th> <input name = "quantity" id = "quantity" placeholder={{item[4]}}>  </th>
         <th><input type = "submit" value = "Update"> </th>
@@ -74,11 +74,11 @@
     {% endfor %}
     </table>
     <h1>Total Price: ${{totalprice}}</h1>
-    <p id="display"></p>
-    <button  onclick="document.getElementById('display').innerHTML = Date()">Checkout </button> 
-   <!-- <form method ="POST" action="http://127.0.0.1:5000/checkout">
+       <form method ="POST" action="http://127.0.0.1:5000/cart/cartpage">
         <input type="hidden" name= "total" id = "total" value = {{totalprice}}>
-      <button  onclick="document.getElementById('demo').innerHTML = Date()">Checkout </button> 
-  </form>
-  -->
+        <p id="display"></p>
+    <button  type = "hidden" onclick="document.getElementById('display').innerHTML = Date()">Checkout </button> 
+ 
+        </form>
+
 {% endblock %}

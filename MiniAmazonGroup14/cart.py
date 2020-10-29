@@ -1,6 +1,6 @@
 
 from flask import (
-    Blueprint, render_template, request, redirect, url_for)
+    Blueprint, render_template, request, redirect, url_for, session)
 import MiniAmazonGroup14.db
 
 bp = Blueprint('cart', __name__, url_prefix='/cart')
@@ -11,7 +11,16 @@ bp = Blueprint('cart', __name__, url_prefix='/cart')
 def cartpage():
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT l.name, l.price, l.imageURL, l.id , ci.quantity FROM cart c, cart_item ci, Lego l WHERE c.buyerid = 3 and c.cartid = 1003 and c.cartid = ci.cartid and l.id = ci.legoid")
+    try: 
+        sessionid = session['email']
+    except:
+        print('not logged in')
+    sql = "SELECT * FROM users WHERE userid = '" + sessionid + "'"
+    mycursor.execute(sql)
+    test = mycursor.fetchall()
+    print(test)
+    #email = "kelly.george@yahoo.com"  
+    mycursor.execute("SELECT l.name, l.price, l.imageURL, l.id , ci.quantity FROM cart c, cart_item ci, Lego l, buyer b, users u WHERE c.buyerid = b.buyerid and b.userid =%s  and c.cartid = u.cur_cart and c.cartid = ci.cartid and l.id = ci.legoid", (sessionid,))
     #val = 1
     #mycursor.execute(sql,val)
     #user needs to be one that is logged in 
@@ -33,22 +42,31 @@ def removefromcart():
     if request.method == 'POST':
         #cartid = request.form['id']
         #live variable 
-        cartid = 1003
+        #cartid = 1003
+        try: 
+            sessionid = session['email']
+        except:
+            print('not logged in') 
+        mydb = MiniAmazonGroup14.db.getdb()
+        mycursor = mydb.cursor()
+        mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
+        cart = mycursor.fetchone()[0]
+        print(mycursor.fetchone())
         legoid = request.form['legoid']
         quantity = request.form['quantity']
         #legoid = 30732
         #link from legopage
-        print(cartid, legoid)
+        print(cart, legoid)
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
         if quantity == '0':
-            mycursor.execute('DELETE FROM cart_item where cartid = %s and legoid = %s', (cartid, legoid))
+            mycursor.execute('DELETE FROM cart_item where cartid = %s and legoid = %s', (cart, legoid))
         #should delete 
             mydb.commit()
             return render_template('cart/removefromcart.html')
         else: 
             sql = "UPDATE cart_item SET quantity = %s where cartid = %s and legoid = %s"
-            val = (quantity, cartid, legoid)
+            val = (quantity, cart, legoid)
             mycursor.execute(sql, val)
             mydb.commit()
 

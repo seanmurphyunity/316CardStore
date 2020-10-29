@@ -1,20 +1,22 @@
 from flask import (
-    Blueprint, render_template, request, redirect, url_for
+    Blueprint, render_template, request, redirect, url_for, session
 )
 import MiniAmazonGroup14.db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         email = request.form['email']
+        session['email'] = email
         password = request.form['password']
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT * FROM users WHERE userid = %s', (email,))
         user = mycursor.fetchone()
-        error=None
+        error = None
         if user is None:
             error = 'Incorrect username.'
         elif not (user[3], password):
