@@ -36,8 +36,8 @@
         make button link to lego page-->
     
     
-    <form  method="post" action="{{ url_for('orders.purchase') }}">
-        <input type="hidden" name= "pnum" id = "pnum" value = {{item[0]}}>
+    <form  method="post" action="{{ url_for('orders.sale') }}">
+        <input type="hidden" name= "snum" id = "snum" value = {{item[0]}}>
     
            
         <th><input type = "submit" value = {{item[0]}}> </th>

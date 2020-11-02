@@ -22,11 +22,8 @@
         <div class="legolisting">
         <img src={{ lego[7] }}>
         
-        <form method="post">
-          <input type="hidden" name= "legoid" id = "legoid" value = {{lego[0]}}>
-          <button type="submit"><h1>{{ lego[3] }}</h1></button>
-        </form>
-
+        
+        <a href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
         
         <h1 style="text-align: center;">${{ lego[6] }}</h1>
         <h2> Theme: {{ lego[1] }} </h2>

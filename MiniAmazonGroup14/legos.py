@@ -5,7 +5,7 @@ import MiniAmazonGroup14.db
 
 bp = Blueprint('legos', __name__, url_prefix='/legos')
 
-@bp.route('/legolistings')
+@bp.route('/legolistings',  methods=('GET', 'POST'))
 def legolistings():
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
@@ -14,19 +14,19 @@ def legolistings():
     print(lego)
     return render_template('legos/legolistings.html', legos = lego)
 
-@bp.route('/legolistings',  methods=('GET', 'POST'))
-def legopage():
-    if request.method == 'POST':
-        setid = request.form['legoid']
-        mydb = MiniAmazonGroup14.db.getdb()
-        mycursor = mydb.cursor()
+@bp.route('/legopage/<legoid>',  methods=('GET', 'POST'))
+def legopage(legoid):
+    
+        #setid = request.form['legoid']
+    mydb = MiniAmazonGroup14.db.getdb()
+    mycursor = mydb.cursor()
         #sql = "SELECT * FROM Lego WHERE id = %s" 
         #val = (setid)
-        mycursor.execute('SELECT * FROM Lego WHERE id = %s', (setid, ))
-        olego = mycursor.fetchall()
-        print(olego)
-        #return redirect(url_for('legos.legopage'))
-    return render_template('legos/legopage.html', onelego =olego)
+    mycursor.execute('SELECT * FROM Lego WHERE id = %s', (legoid, ))
+    lego = mycursor.fetchall()
+    print(lego)
+        #return redirect(url_for('legos.legopage', legoid =legoid))
+    return render_template('legos/legopage.html', legoid =legoid, onelego = lego)
 
    
 
@@ -51,7 +51,7 @@ def addlego():
         return redirect(url_for('legos.addlegosuccess'))
     return render_template('legos/addlego.html')
 
-@bp.route('/legopage', methods=('GET', 'POST'))
+@bp.route('/addtocart', methods=('GET', 'POST'))
 def addtocart():
     #needs to link to added to cartpage 
     if request.method == 'POST':
