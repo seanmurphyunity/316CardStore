@@ -15,15 +15,11 @@
       color: white;
     } 
   </style>
-  <h1>Add to Balance</h1>
+  <h1>Your new balance is : {{ newb }} </h1>
   <br>
   <div class="cartsuccess">
-    <form method ="POST" action="{{ url_for('checkout.addbalance')}}">
-        <input name= "amt" id = "amt">
-        
-    <button  type = submit value = "Add">Add to Balance</button> 
-    
-        </form>
+      
+      
     
   </div>
 

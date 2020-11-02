@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+  <style>
+      .cartsuccess a {
+      background-color: #f1f1f1;
+      color: black;
+      padding: 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .cartsuccess a:hover {
+      background-color: #012169;
+      color: white;
+    } 
+  </style>
+  <h1>Sales</h1>
+  
+    
+    
+
+  <table style="width: 100%;">
+<tr> 
+    <th><h1>Date</h1></th>
+    <th><h1>Sales Number</h1></th>
+    
+</tr>
+    {% for item in items %}
+        <tr class="cartpage">
+        
+        
+        <th>{{ item[1] }}</th>
+       <!-- 
+        <th><a href="{{ url_for('orders.purchase') }}">{{ item[0] }}</a> </th>
+        make button link to lego page-->
+    
+    
+    <form  method="post" action="{{ url_for('orders.purchase') }}">
+        <input type="hidden" name= "pnum" id = "pnum" value = {{item[0]}}>
+    
+           
+        <th><input type = "submit" value = {{item[0]}}> </th>
+  
+           
+    </form>
+
+        </tr>
+        {% if not loop.last %}
+        
+        {% endif %}
+    {% endfor %}
+    </table>
+  <br>
+  
+
+{% endblock %}

@@ -8,7 +8,11 @@ import MiniAmazonGroup14.test
 
 import MiniAmazonGroup14.cart
 
+import MiniAmazonGroup14.orders
+
 import MiniAmazonGroup14.db
+
+import MiniAmazonGroup14.checkout
 
 app = Flask(__name__)
 app.config.from_mapping(SECRET_KEY='dev')
@@ -22,7 +26,8 @@ app.register_blueprint(MiniAmazonGroup14.auth.bp)
 app.register_blueprint(MiniAmazonGroup14.legos.bp)
 app.register_blueprint(MiniAmazonGroup14.test.bp)
 app.register_blueprint(MiniAmazonGroup14.cart.bp)
-
+app.register_blueprint(MiniAmazonGroup14.orders.bp)
+app.register_blueprint(MiniAmazonGroup14.checkout.bp)
 #db.createtest()
 #db.posttest()
 #db.gettest()

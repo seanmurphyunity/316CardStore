@@ -74,11 +74,11 @@
     {% endfor %}
     </table>
     <h1>Total Price: ${{totalprice}}</h1>
-       <form method ="POST" action="http://127.0.0.1:5000/cart/cartpage">
+       <form method ="POST" action="{{ url_for('checkout.checkout')}}">
         <input type="hidden" name= "total" id = "total" value = {{totalprice}}>
-        <p id="display"></p>
-    <button  type = "hidden" onclick="document.getElementById('display').innerHTML = Date()">Checkout </button> 
- 
+        <p id="display" name = "display"></p>
+    <button  type = "hidden" id="display" name = "display" onclick="document.getElementById('display').innerHTML = Date()">Checkout </button> 
+   
         </form>
 
 {% endblock %}
