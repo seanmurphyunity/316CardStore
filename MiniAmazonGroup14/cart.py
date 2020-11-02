@@ -20,13 +20,13 @@ def cartpage():
     test = mycursor.fetchall()
     print(test)
     #email = "kelly.george@yahoo.com"  
-    mycursor.execute("SELECT l.name, l.price, l.imageURL, l.id , ci.quantity FROM cart c, cart_item ci, Lego l, buyer b, users u WHERE c.buyerid = b.buyerid and b.userid =%s  and c.cartid = u.cur_cart and c.cartid = ci.cartid and l.id = ci.legoid", (sessionid,))
+    mycursor.execute("SELECT l.name, l.price, l.imageURL, l.id , ci.quantity FROM cart_item ci, Lego l, buyer b, users u WHERE b.userid =%s  and b.userid = u.userid and u.cur_cart  = ci.cartid and l.id = ci.legoid", (sessionid,))
     #val = 1
     #mycursor.execute(sql,val)
     #user needs to be one that is logged in 
     #cart needs to be current cart
     cart = mycursor.fetchall()
-    
+    print(cart)
     #full = mycursor.fetchone()
     totalprice = 0
     for i in cart: 

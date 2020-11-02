@@ -22,7 +22,7 @@
   <h1 style="text-align: center;">${{ olego[6] }}</h1>
   <h2> Theme: {{ olego[1] }} </h2>
   <h3> Year: {{ olego[2] }}, Pieces: {{ olego[5]}}, Minifigs: {{ olego[4] }} </h3>
-  <form method="post" action="/legos/legopage">
+  <form method="post" action="{{ url_for('legos.addtocart')}}">
     <input type="hidden" name= "legoid" id = "legoid" value = {{olego[0]}}>
     <label for="quantity">Quantity</label>
     <input type="quantity" name="quantity" id="quantity" required>
