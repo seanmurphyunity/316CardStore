@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+  <style>
+      .cartsuccess a {
+      background-color: #f1f1f1;
+      color: black;
+      padding: 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .cartsuccess a:hover {
+      background-color: #012169;
+      color: white;
+    } 
+  </style>
+  <h1>Add to Balance</h1>
+  <br>
+  <div class="cartsuccess">
+    <form method ="POST" action="{{ url_for('checkout.addbalance')}}">
+        <input name= "amt" id = "amt">
+        
+    <button  type = submit value = "Add">Add to Balance</button> 
+    
+        </form>
+    
+  </div>
+
+{% endblock %}

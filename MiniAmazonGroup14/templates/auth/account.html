@@ -28,9 +28,11 @@
   <div class="accountpage">
     <a href="{{ url_for('legos.addlego') }}">Sell Set</a>
     <br>
-    <a href="{{ url_for('auth.account') }}">Cart</a>
+    <a href="{{ url_for('cart.cartpage') }}">Cart</a>
     <br>
-    <a href="{{ url_for('auth.account') }}">Order History</a>
+    <a href="{{ url_for('orders.purchase_history') }}">Order History</a>
+    <br>
+    <a href="{{ url_for('checkout.balancepage') }}">Add Balance</a>
     <br>
   </div>
   

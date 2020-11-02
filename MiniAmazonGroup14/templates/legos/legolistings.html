@@ -21,10 +21,17 @@
     {% for lego in legos %}
         <div class="legolisting">
         <img src={{ lego[7] }}>
-        <h1 style="text-align: center;">{{ lego[3] }} </h1>
+        
+        <form method="post">
+          <input type="hidden" name= "legoid" id = "legoid" value = {{lego[0]}}>
+          <button type="submit"><h1>{{ lego[3] }}</h1></button>
+        </form>
+
+        
         <h1 style="text-align: center;">${{ lego[6] }}</h1>
         <h2> Theme: {{ lego[1] }} </h2>
         <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        
         </div>
         {% if not loop.last %}
         <hr>

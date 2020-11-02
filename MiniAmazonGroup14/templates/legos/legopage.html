@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+  <style>
+    /* Style the legolisting content */
+    .legopage {
+      display: inline-block;
+      background-color: #f1f1f1;
+      color: #012169;
+      padding: 10px;
+      margin: 15px;
+      border: 15px #012169;
+    }
+  </style>
+  
+
+  {% for olego in onelego %}
+  
+  <img src={{ olego[7] }}>
+  <h1>{{ olego[3] }} </h1>
+  <h1 style="text-align: center;">${{ olego[6] }}</h1>
+  <h2> Theme: {{ olego[1] }} </h2>
+  <h3> Year: {{ olego[2] }}, Pieces: {{ olego[5]}}, Minifigs: {{ olego[4] }} </h3>
+  <form method="post" action="/legos/legopage">
+    <input type="hidden" name= "legoid" id = "legoid" value = {{olego[0]}}>
+    <label for="quantity">Quantity</label>
+    <input type="quantity" name="quantity" id="quantity" required>
+    <br>
+    <input type="submit" value="Add to Cart">
+  </form>
+  </div>
+  {% if not loop.last %}
+  <hr>
+  {% endif %}
+{% endfor %}
+
+
+
+{% endblock %}
