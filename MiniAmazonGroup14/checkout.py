@@ -43,27 +43,29 @@ def checkout():
         bal = mycursor.fetchall()[0][0]
         print(bal)
         print(totalprice)
-        if bal >= totalprice: 
-            mycursor.execute("INSERT INTO buyer_history(buyerid, purchase_num, date_bought) Values(%s, %s, %s)",(buyerid, pnum, time ))
-            mydb.commit()
-            mycursor.execute("INSERT INTO checkout(cartid, purchase_num, date_bought) Values(%s, %s, %s)",(cartid, pnum, time ))
-            mydb.commit()
-            sql = "UPDATE users SET balance = %s where userid = %s"
-            newbal = bal - totalprice
-            val = (newbal, sessionid)
-            mycursor.execute(sql, val)
-            mydb.commit()
-            createnewcart(sessionid)
-            sold(cartid, sessionid)
-            return render_template('checkout/checkoutpage.html')
-
-
-            
+        avail = checkq(cartid)
+        if avail == 1: 
+            return render_template('cart/quantitylow.html')
         else: 
+            if bal >= totalprice: 
+                mycursor.execute("INSERT INTO buyer_history(buyerid, purchase_num, date_bought) Values(%s, %s, %s)",(buyerid, pnum, time ))
+                mydb.commit()
+                mycursor.execute("INSERT INTO checkout(cartid, purchase_num, date_bought) Values(%s, %s, %s)",(cartid, pnum, time ))
+                mydb.commit()
+                sql = "UPDATE users SET balance = %s where userid = %s"
+                newbal = bal - totalprice
+                val = (newbal, sessionid)
+                mycursor.execute(sql, val)
+                mydb.commit()
+                createnewcart(sessionid)
+                sold(cartid, sessionid)
+                return render_template('checkout/checkoutpage.html')
+                
+            else: 
 
-            return render_template('checkout/addbalance.html')
+                return render_template('checkout/addbalance.html')
 
-    return render_template('cart/cartpage.html')
+    #return render_template('cart/cartpage.html')
 
 def createnewcart(sessionid): 
     newcart = rangencartnum()
@@ -77,6 +79,29 @@ def createnewcart(sessionid):
     mycursor.execute("UPDATE users SET cur_cart = %s where userid = %s", (newcart, sessionid))
     mydb.commit()
     return 
+
+def checkq(cartid): 
+    mydb = MiniAmazonGroup14.db.getdb()
+    mycursor = mydb.cursor()
+    sql = "SELECT legoid, quantity FROM cart_item where cartid = %s"
+    val = (cartid, )
+    mycursor.execute(sql,val)
+    legos = mycursor.fetchall()
+    v = 0
+    print(legos)
+    for l in legos: 
+        print(l)
+        sql1 = "SELECT sum(quantity) FROM sells where legoid = %s"
+        val2 = (l[0],)
+        mycursor.execute(sql1,val2)
+        forsale = mycursor.fetchone()
+        if forsale[0] > l[1]: 
+            continue
+        else: 
+            v = 1
+            return v 
+    return v
+    
 
 @bp.route('/checkoutpage', methods=('GET', 'POST'))
 def sold(cartid, sessionid):
