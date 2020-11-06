@@ -63,9 +63,12 @@ def addtocart():
             print('not logged in') 
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
+        print(sessionid)
         mycursor.execute('SELECT userid FROM buyer')
         buyers = mycursor.fetchall()
-        if sessionid not in buyers: 
+        res = [''.join(i) for i in buyers]
+        print(res)
+        if sessionid not in res: 
             return render_template('cart/Notbuyer.html')
         else: 
             mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))

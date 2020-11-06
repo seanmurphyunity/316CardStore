@@ -33,4 +33,4 @@ app.register_blueprint(MiniAmazonGroup14.checkout.bp)
 #db.gettest()
 
 #Once we are on a production server we will use something like this
-#app.run(host='0.0.0.0', port=8080)
+#app.run(host='0.0.0.0')
