@@ -41,11 +41,16 @@ def addlego():
         minifigs = request.form['minifigs']
         pieces = request.form['pieces']
         image = request.form['image']
+        try: 
+            sessionid = session['email']
+        except:
+            print('not logged in')
+        sellerid = sessionid
         print(setid, theme, year, name, minifigs, pieces, price, image)
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
-        sql = "INSERT INTO Lego (id, theme, year, name, minifigs, pieces, price, imageURL) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (setid, theme, year, name, minifigs, pieces, price, image)
+        sql = "INSERT INTO Lego (id, theme, year, name, minifigs, pieces, price, imageURL, sellerid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (setid, theme, year, name, minifigs, pieces, price, image, sellerid)
         mycursor.execute(sql, val)
         mydb.commit()
         return redirect(url_for('legos.addlegosuccess'))

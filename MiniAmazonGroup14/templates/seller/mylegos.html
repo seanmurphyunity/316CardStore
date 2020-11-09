@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+  <style>
+    /* Style the legolisting content */
+    .mylegos {
+      display: inline-block;
+      background-color: #f1f1f1;
+      color: #012169;
+      padding: 10px;
+      margin: 15px;
+      border: 15px #012169;
+    }
+  </style>
+  <h2>My Legos</h2>
+  <br>
+
+  <div style="column-count: 2;">
+
+    {% for lego in legos %}
+        <div class="legolisting">
+        <img src={{ lego[7] }}>
+        
+        
+        <a href="{{ url_for('seller.mylegos', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        
+        <h1 style="text-align: center;">${{ lego[6] }}</h1>
+        <h2> Theme: {{ lego[1] }} </h2>
+        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        
+        </div>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+  </div>
+
+{% endblock %}
