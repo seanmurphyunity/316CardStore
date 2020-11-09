@@ -13,21 +13,19 @@
       border: 15px #012169;
     }
   </style>
-  <h2>Lego Listings</h2>
-  <a href="{{ url_for('legos.search') }}">Search</a>
+  <h2>Search Results</h2>
+  <a href="{{ url_for('legos.legolistings') }}">All Legos</a>
   <br>
-  <a href="{{ url_for('legos.categoryselect') }}">Categories</a>
-
 
   <div style="column-count: 2;">
 
-    {% for lego in legos %}
+    {% for lego in search %}
         <div class="legolisting">
         <img src={{ lego[7] }}>
+        
         <br>
-        
+
         <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
-        
         <h1 style="text-align: center;">${{ lego[6] }}</h1>
         <h2> Theme: {{ lego[1] }} </h2>
         <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
