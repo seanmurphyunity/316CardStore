@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+  <style>
+      .cartsuccess a {
+      background-color: #f1f1f1;
+      color: black;
+      padding: 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .cartsuccess a:hover {
+      background-color: #012169;
+      color: white;
+    } 
+  </style>
+  
+    <h1>Purchase Number:{{ items[0][0] }}</h1>
+    <h1>Date:{{ items[0][1] }}</h1>
+    
+      
+      
+  
+    <table style="width: 100%;">
+  <tr> 
+      <th></th>
+      <th><h1>Item Name</h1></th>
+      <th><h1>Price</h1></th>
+      <th><h1>Quantity</h1></th>
+      <th><h1>Seller</h1></th>
+  </tr>
+      {% for item in items %}
+          <tr class="cartpage">
+          
+          <th><img class="banner" src={{ item[7] }}></th>
+          
+          <th><a href="{{ url_for('legos.legopage', legoid = item[5] ) }}">{{ item[3] }}</a> </th>
+          <!--make button link to lego page-->
+            <th> ${{ item[4] }} </th>
+            <th> {{ item[2] }} </th>
+            <th> {{ item[6] }} </th>
+      
+    
+          </tr>
+          {% if not loop.last %}
+          
+          {% endif %}
+      {% endfor %}
+      </table>
+  <br>
+  <div class="cartsuccess">
+      <!-- make this view sets you are selling once we make filters-->
+    
+  </div>
+
+{% endblock %}

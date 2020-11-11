@@ -1,15 +1,17 @@
 from flask import (
-    Blueprint, render_template, request, redirect, url_for
+    Blueprint, render_template, request, redirect, url_for, session
 )
 import MiniAmazonGroup14.db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         try:
             email = request.form['email']
+            session['email'] = email
             password = request.form['password']
             mydb = MiniAmazonGroup14.db.getdb()
             mycursor = mydb.cursor()
@@ -47,7 +49,6 @@ def login():
                 if error is None:
                     return redirect(url_for('auth.profile')) #should redirect to account page
                 return redirect(url_for('auth.authfail'))
-            
     return render_template('auth/login.html')
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -114,3 +115,4 @@ def authfail():
 @bp.route('/profile', methods=('GET', 'POST'))
 def profile():
     return render_template('auth/profile.html')
+

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .cartpage {
+        background-color: white;
+        height: 30px;
+        padding: 20px;
+        border-color:#012169;
+        border: 2000px;
+    }
+
+    .cartpage a {
+        background-color: #f1f1f1;
+        color: black;
+        padding: 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .cartpage a:hover {
+        background-color: #012169;
+        color: white;
+    } 
+    .banner {
+        height: 100px;
+        width: 100px;
+    }
+    tr {
+        border: 20 px;
+        border-color: royalblue;
+    }
+    button {
+        border: 0px;
+        background-color: white;
+        
+        
+
+        
+    }
+</style>
+
+  <h1>My Cart</h1>
+  
+    
+    
+
+  <table style="width: 100%;">
+<tr> 
+    <th></th>
+    <th><h1>Item Name</h1></th>
+    <th><h1>Price</h1></th>
+</tr>
+    {% for item in cart %}
+        <tr class="cartpage">
+        
+        <th><img class="banner" src={{ item[2] }}></th>
+        <th> <button onclick="{{ url_for('legos.legopage', legoid = item[3])}}"><h3>{{ item[0] }} </h3></button></th>
+        
+        <!--make button link to lego page-->
+    <th> ${{ item[1] }} </th>
+    <form name = 'remove' method="post">
+        <input type="hidden" name= "legoid" id = "legoid" value = {{item[3]}}>
+        <th> <input name = "quantity" id = "quantity" placeholder={{item[4]}}>  </th>
+        <th><input type = "submit" value = "Update"> </th>
+  
+             
+    </form>
+  
+        </tr>
+        {% if not loop.last %}
+        
+        {% endif %}
+    {% endfor %}
+    </table>
+    <h1>Total Price: ${{totalprice}}</h1>
+       <form method ="POST" action="{{ url_for('checkout.checkout')}}">
+        <input type="hidden" name= "total" id = "total" value = {{totalprice}}>
+        <p id="display" name = "display"></p>
+    <button  type = "hidden" id="display" name = "display" value= Date()>Checkout </button> 
+   
+        </form>
+
+{% endblock %}
