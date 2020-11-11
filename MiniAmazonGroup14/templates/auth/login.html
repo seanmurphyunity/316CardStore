@@ -2,6 +2,14 @@
 
 {% block content %}
 
+<style>
+.forgotpassword {
+  
+  padding-top:30px;
+  
+}
+</style>
+
   <h3>Log In</h3>
 
   <form method="post">
@@ -13,6 +21,17 @@
     <br>
     <input type="submit" value="Log In">
   </form>
+
+
+ <div class="forgotpassword">
+  <h3>Forgot your Password?</h3>
+  <form method="post">
+    <label for="femail">Email</label>
+    <input type="femail" name="femail" id="femail" required>
+    <br>
+    <input type="submit" value="Forgot Password">
+  </form>
+</div>
 
 
 {% endblock %}

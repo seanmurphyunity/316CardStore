@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Profile Page</h3>
+
+<body>
+<b>Email: </b> {{ email }}
+<br> <br>
+<b>Name: </b> {{ name }}
+<br> <br>
+<b>Password: </b> {{ password }}
+<br>
+<form method="post">
+    <label for="newpassword">Change Password</label>
+    <input type="newpassword" name="newpassword" id="newpassword" required>
+    <input type="submit" value="Update">
+</form>
+<br>
+<b>Phone Number </b> {{ phonenumber }}
+<form method="post">
+    <label for="newphonenumber">Update Phone Number</label>
+    <input type="newphonenumber" name="newphonenumber" id="newphonenumber" required>
+    <input type="submit" value="Update">
+</form>
+<br>
+<b>Address </b> {{ address }}
+<form method="post">
+    <label for="newaddress">Update Address</label>
+    <input type="newaddress" name="newaddress" id="newaddress" required>
+    <input type="submit" value="Update">
+</form>
+<br>
+<b>Photo Path:</b> {{ photopath }}
+<form method="post">
+    <label for="photo"> Update Photo Path</label>
+    <input type="photo" name="photo" id="photo" required>
+    <input type="submit" value="Update">
+</form>
+<br>
+<b>Security Question</b>(password recovery): <br> {{securityquestion}}
+<b>Security Question Answer:</b> {{ securityanswer }}
+<form method="post">
+    <label for="question">Change Security Question</label>
+    <input type="question" name="question" id="question" required>
+<br>
+    <label for="answer">Change Answer</label> 
+    <input type="answer" name="answer" id="answer" required>
+    <input type="submit" value="Update">
+</form>
+<br>
+<b>Buyer Status:</b> 
+<form method="post">
+    <label for="buyer" value="buyer"> I now plan on buying</label>
+    <input type="checkbox" id="buyer" name="buyer" value="buyer">
+<br>
+    <label for="buyerid">Buyer ID (temp)</label>
+    <input type="buyerid" name="buyerid" id="buyerid">
+    <input type="submit" value="Update">
+</form>
+<br>
+<b>Seller Status</b>
+    <form method="post">
+        <label for="seller" value="seller"> I now plan on selling</label>
+        <input type="checkbox" id="seller" name="seller" value="seller">
+        <br>    
+        <label for="sellerid">Seller ID (temp)</label>
+        <input type="sellerid" name="sellerid" id="sellerid">
+        <input type="submit" value="Update">
+    </form>
+
+</body>
+
+{% endblock %}

@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, render_template, request, redirect, url_for
 )
-import MiniAmazonGroup14.db
+#import MiniAmazonGroup14.db
 
 bp = Blueprint('example', __name__, url_prefix='/example')
 
