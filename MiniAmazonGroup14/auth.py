@@ -71,7 +71,7 @@ def register():
         password = request.form['password']
         securityQuestion = request.form['question']
         securityAnswer = request.form['answer']
-        initialCart = rangenartnum()
+        initialCart = rangencartnum()
         balance = 0
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
