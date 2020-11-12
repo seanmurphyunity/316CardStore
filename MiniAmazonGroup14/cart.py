@@ -9,12 +9,12 @@ bp = Blueprint('cart', __name__, url_prefix='/cart')
 
 @bp.route('/cartpage')
 def cartpage():
-    mydb = MiniAmazonGroup14.db.getdb()
-    mycursor = mydb.cursor()
     try: 
         sessionid = session['email']
     except:
-        print('not logged in')
+        return render_template('auth/mustlogin.html')
+    mydb = MiniAmazonGroup14.db.getdb()
+    mycursor = mydb.cursor()
     sql = "SELECT * FROM users WHERE userid = '" + sessionid + "'"
     mycursor.execute(sql)
     test = mycursor.fetchall()
@@ -40,13 +40,13 @@ def cartpage():
 @bp.route('/cartpage', methods=('GET', 'POST'))
 def removefromcart(): 
     if request.method == 'POST':
-        #cartid = request.form['id']
-        #live variable 
-        #cartid = 1003
         try: 
             sessionid = session['email']
         except:
-            print('not logged in') 
+            return render_template('auth/mustlogin.html')
+        #cartid = request.form['id']
+        #live variable 
+        #cartid = 1003
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))

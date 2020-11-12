@@ -11,12 +11,12 @@ bp = Blueprint('checkout', __name__, url_prefix='/checkout')
 
 
 @bp.route('/checkout', methods=('GET', 'POST'))
-def checkout(): 
+def checkout():
+    try: 
+        sessionid = session['email']
+    except:
+        return render_template('auth/mustlogin.html') 
     if request.method == 'POST':
-        try: 
-            sessionid = session['email']
-        except:
-            print('not logged in') 
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
@@ -56,9 +56,6 @@ def checkout():
             createnewcart(sessionid)
             sold(cartid, sessionid)
             return render_template('checkout/checkoutpage.html')
-
-
-            
         else: 
 
             return render_template('checkout/addbalance.html')
@@ -80,6 +77,10 @@ def createnewcart(sessionid):
 
 @bp.route('/checkoutpage', methods=('GET', 'POST'))
 def sold(cartid, sessionid):
+    try: 
+        sessionid = session['email']
+    except:
+        return render_template('auth/mustlogin.html')
     if request.method == 'POST':
         #logedin = "abc@abc.com"
         #totalprice = request.form['total']
@@ -129,7 +130,7 @@ def balancepage():
     try: 
         sessionid = session['email']
     except:
-        print('not logged in') 
+        return render_template('auth/mustlogin.html')
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
     
@@ -139,12 +140,12 @@ def balancepage():
 
 @bp.route('/addbalance', methods=('GET', 'POST'))
 def addbalance():
+    try: 
+        sessionid = session['email']
+    except:
+        return render_template('auth/mustlogin.html')
     if request.method == 'POST':
         #need to add balance 
-        try: 
-            sessionid = session['email']
-        except:
-            print('not logged in') 
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
         addamt = request.form['amt']
