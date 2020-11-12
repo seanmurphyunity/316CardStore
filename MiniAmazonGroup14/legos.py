@@ -7,12 +7,16 @@ bp = Blueprint('legos', __name__, url_prefix='/legos')
 
 @bp.route('/legolistings',  methods=('GET', 'POST'))
 def legolistings():
-    mydb = MiniAmazonGroup14.db.getdb()
-    mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM Lego")
-    lego = mycursor.fetchall()
-    print(lego)
-    return render_template('legos/legolistings.html', legos = lego)
+    try:
+        sessionid = session['email']
+        mydb = MiniAmazonGroup14.db.getdb()
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT * FROM Lego")
+        lego = mycursor.fetchall()
+        print(lego)
+        return render_template('legos/legolistings.html', legos = lego)
+    except:
+        return render_template('auth/mustlogin.html')
 
 @bp.route('/legopage/<legoid>',  methods=('GET', 'POST'))
 def legopage(legoid):
