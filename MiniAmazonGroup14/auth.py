@@ -82,7 +82,7 @@ def register():
             print(user)
             error = 'User already registered'
         if error is None:
-            sql = "INSERT INTO users (userid, name, address, password, balance, photo_path, phone_numberr, cur_cart) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT INTO users (userid, name, address, password, balance, photo_path, phone_numberr, cur_cart) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             val = (email, name, address, password, balance, photo, phonenumber, initialCart)
             mycursor.execute(sql, val)
             mydb.commit()
