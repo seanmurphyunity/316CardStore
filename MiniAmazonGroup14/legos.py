@@ -342,3 +342,26 @@ def addtocart():
 @bp.route('/addlegosuccess', methods=('GET', 'POST'))
 def addlegosuccess():
     return render_template('legos/addlegosuccess.html')
+
+@bp.route('/mylegos',  methods=('GET', 'POST'))
+def mylegos():
+    try:
+        sessionid = session['email']
+        sql = "SELECT * FROM seller WHERE userid = '" + userid + "'"
+        mycursor.execute(sql)
+        if mycursor.fetchone() is None:
+            return render_template('legos/notseller.html', legos = lego)
+    except:
+        try:
+            sessionid = session['email']
+            mydb = MiniAmazonGroup14.db.getdb()
+            mycursor = mydb.cursor()
+            mycursor.execute("SELECT l.id, l.theme, l.year, l.name, l.minifigs, l.pieces, l.price, l.imageURL FROM Lego l, seller s, sells ss WHERE s.userid = %s AND s.sellerid = ss.sellerid AND ss.legoid = l.id", (sessionid,))
+            lego = mycursor.fetchall()
+            print(lego)
+            if len(lego) != 0:
+                return render_template('legos/mylegos.html', legos = lego)
+            else:
+                return render_template('legos/nolegos.html')
+        except:
+            return render_template('auth/mustlogin.html')

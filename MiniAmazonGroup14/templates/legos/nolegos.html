@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+  <style>
+    /* Style the legolisting content */
+    .legolisting {
+      display: inline-block;
+      background-color: #f1f1f1;
+      color: #012169;
+      padding: 10px;
+      margin: 15px;
+      border: 15px #012169;
+    }
+  </style>
+  <h2>You Currently Have No Legos For Sale!</h2>
+
+  <a href="{{ url_for('legos.addlego') }}">Sell Set</a>
+  <br>
+
+  
+{% endblock %}

@@ -71,7 +71,7 @@ def register():
         password = request.form['password']
         securityQuestion = request.form['question']
         securityAnswer = request.form['answer']
-        initialCart = rangenartnum()
+        initialCart = rangencartnum()
         balance = 0
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
@@ -82,7 +82,7 @@ def register():
             print(user)
             error = 'User already registered'
         if error is None:
-            sql = "INSERT INTO users (userid, name, address, password, balance, photo_path, phone_numberr, cur_cart) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT INTO users (userid, name, address, password, balance, photo_path, phone_numberr, cur_cart) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             val = (email, name, address, password, balance, photo, phonenumber, initialCart)
             mycursor.execute(sql, val)
             mydb.commit()
@@ -118,11 +118,14 @@ def register():
 
 @bp.route('/account')
 def account():
-    try:
-        sessionid = session['email']
-        return render_template('auth/account.html')
-    except:
-        return render_template('auth/mustlogin.html')
+    return render_template('auth/account.html')
+
+
+   # try:
+    #    sessionid = session['email']
+   #     return render_template('auth/account.html')
+   # except:
+   #     return render_template('auth/mustlogin.html')
 
 
 @bp.route('/registersuccess', methods=('GET', 'POST'))
