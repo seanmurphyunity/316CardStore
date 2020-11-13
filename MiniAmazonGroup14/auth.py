@@ -148,14 +148,20 @@ def profile():
         return render_template('auth/mustlogin.html')
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
+    print(sessionid)
     userData = ["userid", "name", "address", "password", "balance", "photo_path", "phone_numberr", "cur_cart"]
+    print(userData)
     i = 0
-    user = ["", "", "", "", "", "", "", ""]
-    for word in userData:
-        sql = "SELECT " + word +  " FROM users WHERE userid = '" + sessionid + "'"
-        mycursor.execute(sql)
-        user[i] = mycursor.fetchone()[0]
-        i = i + 1
+    mycursor.execute("select * from users where userid = %s", (sessionid, ))
+    user = mycursor.fetchone()
+    #user = ["", "", "", "", "", "", "", ""]
+    #for word in userData:
+        #sql = "SELECT " + word +  " FROM users WHERE userid = '" + sessionid + "'"
+        #mycursor.execute(sql)
+        #mycursor.execute("select * from users where userid = %s", (sessionid, ))
+        #user[i] = mycursor.fetchone()[0]
+        #print(mycursor.fetchone())
+        #i = i + 1
     userid = user[0]
     name = user[1]
     address = user[2]
