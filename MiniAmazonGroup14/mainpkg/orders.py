@@ -2,14 +2,14 @@
 from flask import (
     Blueprint, render_template, request, redirect, url_for, session)
 
-import MiniAmazonGroup14.db
+from mainpkg import db
 
 bp = Blueprint('orders', __name__, url_prefix='/orders')
 
 
 @bp.route('/purchase_history')
 def purchase_history():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     try: 
         sessionid = session['email']
@@ -27,7 +27,7 @@ def purchase_history():
 
 @bp.route('/purchase', methods=('GET', 'POST'))
 def purchase():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     pnum = request.form['pnum']
     print(pnum)
     mycursor = mydb.cursor()
@@ -49,7 +49,7 @@ def purchase():
 
 @bp.route('/sales_history')
 def sales_history():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     try: 
         sessionid = session['email']
@@ -67,7 +67,7 @@ def sales_history():
 
 @bp.route('/sale', methods=('GET', 'POST'))
 def sale():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     snum = request.form['snum']
     print(snum)
     mycursor = mydb.cursor()

@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, render_template, request, redirect, url_for, session
 )
-import MiniAmazonGroup14.db
+from mainpkg import db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -13,7 +13,7 @@ def login():
             email = request.form['email']
             session['email'] = email
             password = request.form['password']
-            mydb = MiniAmazonGroup14.db.getdb()
+            mydb = db.getdb()
             mycursor = mydb.cursor()
             mycursor.execute('SELECT * FROM users WHERE userid = %s', (email,))
             user = mycursor.fetchone()
@@ -29,7 +29,7 @@ def login():
             try:
                 femail = request.form['femail']
                 # security question = get sec q
-                mydb = MiniAmazonGroup14.db.getdb()
+                mydb = db.getdb()
                 mycursor = mydb.cursor()
                 mycursor.execute('SELECT question FROM passwordRecovery WHERE userid = %s', (femail,))
                 securityquestion = mycursor.fetchone()
@@ -39,7 +39,7 @@ def login():
             except:
                 answer = request.form['answer']
                 userid = request.form['email']
-                mydb = MiniAmazonGroup14.db.getdb()
+                mydb = db.getdb()
                 mycursor = mydb.cursor()
                 mycursor.execute('SELECT * FROM passwordRecovery WHERE userid = %s', (userid,))    
                 user = mycursor.fetchone()
@@ -61,7 +61,7 @@ def register():
         phonenumber = request.form['phonenumber']
         password = request.form['password']
         balance = 0
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT * FROM users WHERE userid = %s', (email,))
         user = mycursor.fetchone()
