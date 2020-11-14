@@ -118,15 +118,11 @@ def register():
 
 @bp.route('/account')
 def account():
-    return render_template('auth/account.html')
-
-
-   # try:
-    #    sessionid = session['email']
-   #     return render_template('auth/account.html')
-   # except:
-   #     return render_template('auth/mustlogin.html')
-
+    try:
+        sessionid = session['email']
+        return render_template('auth/account.html')
+    except:
+        return render_template('auth/mustlogin.html')
 
 @bp.route('/registersuccess', methods=('GET', 'POST'))
 def registersuccess():
@@ -199,33 +195,28 @@ def profile():
         mycursor = mydb.cursor()
         try: 
             address = request.form['newaddress']
-            sql = "UPDATE users SET address = " + address + "WHERE userid = "+ userid + ""
-            mycursor.execute(sql)
+            mycursor.execute("UPDATE users SET address = %s WHERE userid = %s", (address, userid))
             mydb.commit()
         except:
             try:
                 photo = request.form['photo']
-                sql = "UPDATE users SET photo_path = " + photo + "WHERE userid = " + userid + ""
-                mycursor.execute(sql)
+                mycursor.execute("UPDATE users SET photo_path = %s WHERE userid = %s", (photo, userid))
                 mydb.commit()
             except:
                 try:
                     phonenumber = request.form['newphonenumber']
-                    sql = "UPDATE users SET phone_numberr = " + phonenumber + "WHERE userid = " + userid + ""
-                    mycursor.execute(sql)
+                    mycursor.execute("UPDATE users SET phone_numberr = %s WHERE userid = %s", (phonenumber, userid))
                     mydb.commit()
                 except:
                     try:
                         password = request.form['newpassword']
-                        sql = "UPDATE users SET password = " + password + "WHERE userid = " + userid + ""
-                        mycursor.execute(sql)
+                        mycursor.execute("UPDATE users SET password = %s WHERE userid = %s",(phonenumber, userid))
                         mydb.commit()
                     except:
                         try:
                             securityQuestion = request.form['question']
                             securityAnswer = request.form['answer']
-                            sql = "UPDATE users SET question = " + question + ", answer = " + answer +  "WHERE userid = " + userid + ""
-                            mycursor.execute(sql)
+                            mycursor.execute("UPDATE users SET question = %s, answer = %s WHERE userid = %s", (question, answer, userid))
                             mydb.commit()
                         except:
                             try:
@@ -268,7 +259,7 @@ def genBuyerNum():
     mycursor.execute(sql)
     nums = mycursor.fetchall()
     if newBuyerId in nums: 
-        getBuyerNum()
+        genBuyerNum()
     else: 
         return newBuyerId
 
@@ -280,7 +271,7 @@ def genSellerNum():
     mycursor.execute(sql)
     nums = mycursor.fetchall()
     if newSellerId in nums: 
-        getSellerNum()
+        genSellerNum()
     else: 
         return newSellerId
 
