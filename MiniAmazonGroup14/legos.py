@@ -9,12 +9,154 @@ bp = Blueprint('legos', __name__, url_prefix='/legos')
 def legolistings():
     try:
         sessionid = session['email']
+        @bp.route('/legolistings',  methods=('GET', 'POST'))
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT * FROM Lego")
-        lego = mycursor.fetchall()
-        print(lego)
-        return render_template('legos/legolistings.html', legos = lego)
+
+        try:
+            mycursor.execute("SELECT userid, theme, COUNT(quantity) AS themetotals\
+                            FROM \
+                                (SELECT \
+                                buyer.userid AS userid, \
+                                themecount.theme AS theme, \
+                                themecount.quantity AS quantity \
+                                FROM buyer\
+                                LEFT JOIN\
+                                    (SELECT      \
+                                    Lego.theme AS theme, \
+                                    buyerquantset.buyerid AS buyerid,\
+                                    buyerquantset.quantity AS quantity \
+                                    FROM Lego \
+                                    LEFT JOIN \
+                                        (SELECT \
+                                        cart.buyerid AS buyerid,\
+                                        purchasecart.legoid AS legoid, \
+                                        purchasecart.quantity AS quantity\
+                                        FROM cart\
+                                        LEFT JOIN\
+                                            (SELECT \
+                                            checkout.cartid AS cartid, \
+                                            checkout.purchase_num AS purchase_num, \
+                                            cart_item.legoid AS legoid, \
+                                            cart_item.quantity AS quantity \
+                                            FROM checkout \
+                                            LEFT JOIN cart_item ON checkout.cartid = cart_item.cartid)\
+                                            AS purchasecart\
+                                        ON cart.cartid = purchasecart.cartid)\
+                                        AS buyerquantset \
+                                    ON Lego.id = buyerquantset.legoid) \
+                                    AS themecount \
+                                ON buyer.buyerid = themecount.buyerid) \
+                                AS themecounts \
+                            WHERE userid = '" + session['email'] + "'GROUP BY userid, theme ORDER BY themetotals DESC")
+            themechoices = mycursor.fetchall()
+            mycursor.execute("SELECT * FROM Lego WHERE theme = '" + themechoices[0][1] + "'")
+            topret = mycursor.fetchall()
+            topret = topret[:4]
+            firsttitle = "Recommended for You"
+
+        except:
+            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
+            top = mycursor.fetchall()
+            topret = []
+            for x in top[:6]:
+                mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+                topcur = mycursor.fetchone()
+                topret.append(topcur)
+            firsttitle = "Top Rated"
+            #print(topret)
+
+        sql =   "SELECT id, AVG(stars) AS astar FROM\
+                (SELECT \
+                Lego.id AS id, \
+                Lego.price AS price, \
+                Review.stars AS stars \
+                FROM Lego \
+                LEFT JOIN Review ON Lego.id = Review.legoid) AS budgetpicks\
+                WHERE price < 25 GROUP BY id ORDER BY astar DESC"
+        mycursor.execute(sql)
+        budget = mycursor.fetchall()
+        #print(budget[:10])
+        budgetret = []
+        for x in budget[:6]:
+            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            budgetcur = mycursor.fetchone()
+            budgetret.append(budgetcur)
+        #print(budgetret)
+
+        sql =   "SELECT id, AVG(stars) AS astar FROM\
+                (SELECT \
+                Lego.id AS id, \
+                Lego.price AS price, \
+                Review.stars AS stars \
+                FROM Lego \
+                LEFT JOIN Review ON Lego.id = Review.legoid) AS budgetpicks\
+                WHERE price > 100 GROUP BY id ORDER BY astar DESC"
+        mycursor.execute(sql)
+        elite = mycursor.fetchall()
+        #print(elite[:10])
+        eliteret = []
+        for x in elite[:6]:
+            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            elitecur = mycursor.fetchone()
+            eliteret.append(elitecur)
+        #print(eliteret)
+
+        sql =   "SELECT id, AVG(stars) AS astar FROM\
+                (SELECT \
+                Lego.id AS id, \
+                Lego.price AS price, \
+                Review.stars AS stars \
+                FROM Lego \
+                LEFT JOIN Review ON Lego.id = Review.legoid) AS budgetpicks\
+                WHERE price > 100 GROUP BY id ORDER BY astar DESC"
+        mycursor.execute(sql)
+        elite = mycursor.fetchall()
+        #print(elite[:10])
+        eliteret = []
+        for x in elite[:10]:
+            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            elitecur = mycursor.fetchone()
+            eliteret.append(elitecur)
+        #print(eliteret)
+
+        sql =   "SELECT id, AVG(stars) AS astar FROM\
+                (SELECT \
+                Lego.id AS id, \
+                Lego.pieces AS pieces, \
+                Review.stars AS stars \
+                FROM Lego \
+                LEFT JOIN Review ON Lego.id = Review.legoid) AS budgetpicks\
+                WHERE pieces < 200 GROUP BY id ORDER BY astar DESC"
+        mycursor.execute(sql)
+        quick = mycursor.fetchall()
+        #print(quick[:10])
+        quickret = []
+        for x in quick[:10]:
+            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            quickcur = mycursor.fetchone()
+            quickret.append(quickcur)
+        #print(quickret)
+
+        sql =   "SELECT id, AVG(stars) AS astar FROM\
+                (SELECT \
+                Lego.id AS id, \
+                Lego.pieces AS pieces, \
+                Review.stars AS stars \
+                FROM Lego \
+                LEFT JOIN Review ON Lego.id = Review.legoid) AS budgetpicks\
+                WHERE pieces > 2000 GROUP BY id ORDER BY astar DESC"
+        mycursor.execute(sql)
+        longb = mycursor.fetchall()
+        #print(longb[:10])
+        longret = []
+        for x in longb[:10]:
+            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            longcur = mycursor.fetchone()
+            longret.append(longcur)
+        #print(longret)
+
+        return render_template('legos/legolistings.html', top = topret, budgetbuys = budgetret, elite = eliteret, quickbuild = quickret, longbuild = longret, firsttitle = firsttitle)
     except:
         return render_template('auth/mustlogin.html')
 
