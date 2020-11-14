@@ -50,7 +50,7 @@ def legolistings():
                                 AS themecounts \
                             WHERE userid = '" + session['email'] + "'GROUP BY userid, theme ORDER BY themetotals DESC")
             themechoices = mycursor.fetchall()
-            mycursor.execute("SELECT * FROM Lego WHERE theme = '" + themechoices[0][1] + "'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = '" + themechoices[0][1] + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             topret = mycursor.fetchall()
             topret = topret[:4]
             firsttitle = "Recommended for You"
@@ -60,7 +60,7 @@ def legolistings():
             top = mycursor.fetchall()
             topret = []
             for x in top[:6]:
-                mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+                mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "'")
                 topcur = mycursor.fetchone()
                 topret.append(topcur)
             firsttitle = "Top Rated"
@@ -79,7 +79,7 @@ def legolistings():
         #print(budget[:10])
         budgetret = []
         for x in budget[:6]:
-            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             budgetcur = mycursor.fetchone()
             budgetret.append(budgetcur)
         #print(budgetret)
@@ -97,7 +97,7 @@ def legolistings():
         #print(elite[:10])
         eliteret = []
         for x in elite[:6]:
-            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             elitecur = mycursor.fetchone()
             eliteret.append(elitecur)
         #print(eliteret)
@@ -115,7 +115,7 @@ def legolistings():
         #print(elite[:10])
         eliteret = []
         for x in elite[:10]:
-            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             elitecur = mycursor.fetchone()
             eliteret.append(elitecur)
         #print(eliteret)
@@ -133,7 +133,7 @@ def legolistings():
         #print(quick[:10])
         quickret = []
         for x in quick[:10]:
-            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             quickcur = mycursor.fetchone()
             quickret.append(quickcur)
         #print(quickret)
@@ -151,7 +151,7 @@ def legolistings():
         #print(longb[:10])
         longret = []
         for x in longb[:10]:
-            mycursor.execute("SELECT * FROM Lego WHERE id = '" + str(x[0]) + "'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             longcur = mycursor.fetchone()
             longret.append(longcur)
         #print(longret)
@@ -161,17 +161,19 @@ def legolistings():
         return render_template('auth/mustlogin.html')
 
 @bp.route('/legopage/<legoid>',  methods=('GET', 'POST'))
-def legopage(legoid):
+def legopage(theme, year, name, minifigs, pieces, ImageURL):
 
         #setid = request.form['legoid']
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
         #sql = "SELECT * FROM Lego WHERE id = %s" 
         #val = (setid)
-    mycursor.execute('SELECT * FROM Lego WHERE id = %s', (legoid, ))
+
+    #change to be where all the others are equal too
+    mycursor.execute('SELECT * FROM Lego WHERE name = %s', (name, ))
     lego = mycursor.fetchall()
 
-    mycursor.execute('SELECT * FROM Review WHERE legoid = %s', (legoid, ))
+    mycursor.execute('SELECT * FROM Review WHERE name = %s', (name, ))
     reviews = mycursor.fetchall()
     print(reviews)
     if not reviews == []:
@@ -182,11 +184,11 @@ def legopage(legoid):
             sum += review[5]
             reviewCount += 1
         avgReview = sum / reviewCount
-        return render_template('legos/legopage.html', legoid =legoid, onelego = lego, reviews = reviews, avgReview = avgReview)
+        return render_template('legos/legopage.html', legoid =name, onelego = lego, reviews = reviews, avgReview = avgReview)
     else:
         avgReview = None
         noreviews = "There are no reviews for this product yet."
-        return render_template('legos/legopage.html', legoid =legoid, onelego = lego, reviews = reviews, noreviews = noreviews)
+        return render_template('legos/legopage.html', legoid =name, onelego = lego, reviews = reviews, noreviews = noreviews)
         
         
     
@@ -200,7 +202,7 @@ def search():
         searchterm = request.form['search']
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT * FROM Lego WHERE name LIKE '%" + searchterm + "%'")
+        mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE name LIKE '%" + searchterm + "%' GROUP BY theme, year, name, minifigs, pieces, imageURL")
         search = mycursor.fetchall()
         print(search)
         return render_template('legos/searchresults.html', search = search)
@@ -214,7 +216,7 @@ def categoryselect():
         
         try:
             searchterm = request.form['theme']
-            mycursor.execute("SELECT * FROM Lego WHERE theme LIKE '%" + searchterm + "%'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme LIKE '%" + searchterm + "%' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             category = mycursor.fetchall()
             title = "Theme Search Results"
             return render_template('legos/categoryresults.html', category = category, title = title)
@@ -222,7 +224,7 @@ def categoryselect():
             try:
                 minpieces = request.form['minpieces']
                 maxpieces = request.form['maxpieces']
-                sql = "SELECT * FROM Lego WHERE pieces >= " + minpieces + " AND pieces <= " + maxpieces
+                sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= " + minpieces + " AND pieces <= " + maxpieces + " GROUP BY theme, year, name, minifigs, pieces, imageURL"
                 mycursor.execute(sql)
                 category = mycursor.fetchall()
                 title = str(minpieces) + " to " + str(maxpieces) + " Pieces"
@@ -231,7 +233,7 @@ def categoryselect():
                 try:
                     minminifigs = request.form['minminifigs']
                     maxminifigs = request.form['maxminifigs']
-                    sql = "SELECT * FROM Lego WHERE minifigs >= " + str(minminifigs) + " AND minifigs <= " + str(maxminifigs)
+                    sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE minifigs >= " + str(minminifigs) + " AND minifigs <= " + str(maxminifigs) + " GROUP BY theme, year, name, minifigs, pieces, imageURL"
                     mycursor.execute(sql)
                     category = mycursor.fetchall()
                     title = str(minminifigs) + " to " + str(maxminifigs) + " Minifigs"
@@ -240,7 +242,7 @@ def categoryselect():
                     try:
                         minprice = request.form['minprice']
                         maxprice = request.form['maxprice']
-                        sql = "SELECT * FROM Lego WHERE price >= " + minprice + " AND price <= " + maxprice
+                        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE price >= " + minprice + " AND price <= " + maxprice + " GROUP BY theme, year, name, minifigs, pieces, imageURL"
                         mycursor.execute(sql)
                         category = mycursor.fetchall()
                         title = "$" + str(minprice) + " to " + "$" + str(maxprice)
@@ -249,7 +251,7 @@ def categoryselect():
                         try:
                             minyear = request.form['minyear']
                             maxyear = request.form['maxyear']
-                            sql = "SELECT * FROM Lego WHERE year >= " + minyear + " AND year <= " + maxyear
+                            sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year >= " + minyear + " AND year <= " + maxyear + " GROUP BY theme, year, name, minifigs, pieces, imageURL"
                             mycursor.execute(sql)
                             category = mycursor.fetchall()
                             title = str(minyear) + " to " + str(maxyear)
@@ -266,25 +268,25 @@ def category(categoryid):
 
     #themes
     if categoryid == 'starwars':
-        sql = "SELECT * FROM Lego WHERE theme = 'Star Wars'"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Star Wars' GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "Star Wars"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     elif categoryid == 'duplo':
-        sql = "SELECT * FROM Lego WHERE theme = 'Duplo'"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Duplo' GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "Duplo"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     elif categoryid == 'harrypotter':
-        sql = "SELECT * FROM Lego WHERE theme = 'Harry Potter'"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Harry Potter' GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "Harry Potter"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     elif categoryid == 'creatorexpert':
-        sql = "SELECT * FROM Lego WHERE theme = 'Creator Expert'"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Creator Expert' GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "Creator Expert"
         mycursor.execute(sql)
         category = mycursor.fetchall()
@@ -292,55 +294,55 @@ def category(categoryid):
 
     #pieces
     elif categoryid == 'pieces0':
-        sql = "SELECT * FROM Lego WHERE pieces >= 0 AND pieces <= 100"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 0 AND pieces <= 100 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "0 - 100 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     elif categoryid == 'pieces1':
-        sql = "SELECT * FROM Lego WHERE pieces >= 100 AND pieces <= 250"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 100 AND pieces <= 250 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "100 - 250 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'pieces2':
-        sql = "SELECT * FROM Lego WHERE pieces >= 250 AND pieces <= 500"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 250 AND pieces <= 500 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "250 - 500 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'pieces3':
-        sql = "SELECT * FROM Lego WHERE pieces >= 500 AND pieces <= 1000"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 500 AND pieces <= 1000 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "500 - 1,000 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'pieces4':
-        sql = "SELECT * FROM Lego WHERE pieces >= 1000 AND pieces <= 2000"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 1000 AND pieces <= 2000 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "1,000 - 2,000 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'pieces5':
-        sql = "SELECT * FROM Lego WHERE pieces >= 2000 AND pieces <= 3500"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 2000 AND pieces <= 3500 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "2,000 - 3,500 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'pieces6':
-        sql = "SELECT * FROM Lego WHERE pieces >= 3500 AND pieces <= 5000"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 3500 AND pieces <= 5000 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "3,500 - 5,000 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'pieces7':
-        sql = "SELECT * FROM Lego WHERE pieces >= 5000 AND pieces <= 10000"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 5000 AND pieces <= 10000 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "5,000 - 10,000 Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'pieces8':
-        sql = "SELECT * FROM Lego WHERE pieces >= 10000"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE pieces >= 10000 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "10,000+ Pieces"
         mycursor.execute(sql)
         category = mycursor.fetchall()
@@ -348,25 +350,25 @@ def category(categoryid):
 
     #minifigs
     if categoryid == 'minifigs0':
-        sql = "SELECT * FROM Lego WHERE minifigs >= 0 AND minifigs <= 2"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE minifigs >= 0 AND minifigs <= 2 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "0-2 Minifigs"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'minifigs1':
-        sql = "SELECT * FROM Lego WHERE minifigs >= 3 AND minifigs <= 5"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE minifigs >= 3 AND minifigs <= 5 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "3-5 Minifigs"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'minifigs2':
-        sql = "SELECT * FROM Lego WHERE minifigs >= 6 AND minifigs <= 9"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE minifigs >= 6 AND minifigs <= 9 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "6-9 Minifigs"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'minifigs3':
-        sql = "SELECT * FROM Lego WHERE minifigs >= 10"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE minifigs >= 10 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "10+ Minifigs"
         mycursor.execute(sql)
         category = mycursor.fetchall()
@@ -374,19 +376,19 @@ def category(categoryid):
 
     #year
     elif categoryid == 'year2018':
-        sql = "SELECT * FROM Lego WHERE year = 2018"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year = 2018 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "2018 Sets"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     elif categoryid == 'year2019':
-        sql = "SELECT * FROM Lego WHERE year = 2019"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year = 2019 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "2019 Sets"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     elif categoryid == 'year2020':
-        sql = "SELECT * FROM Lego WHERE year = 2020"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year = 2020 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "2020 Sets"
         mycursor.execute(sql)
         category = mycursor.fetchall()
@@ -394,34 +396,34 @@ def category(categoryid):
 
     #price
     if categoryid == 'price0':
-        sql = "SELECT * FROM Lego WHERE price >= 0 AND price <= 25"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE price >= 0 AND price <= 25 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "$0 - $25"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'price1':
-        sql = "SELECT * FROM Lego WHERE price >= 25 AND price <= 50"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE price >= 25 AND price <= 50 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "$25 - $50"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'price2':
-        sql = "SELECT * FROM Lego WHERE price >= 50 AND price <= 100"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE price >= 50 AND price <= 100 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "$50 - $100"
     if categoryid == 'price3':
-        sql = "SELECT * FROM Lego WHERE price >= 100 AND price <= 200"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE price >= 100 AND price <= 200 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "$100 - $200"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'price4':
-        sql = "SELECT * FROM Lego WHERE price >= 200 AND price <= 500"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE price >= 200 AND price <= 500 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "$200 - $500"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
     if categoryid == 'price5':
-        sql = "SELECT * FROM Lego WHERE price >= 500"
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE price >= 500 GROUP BY theme, year, name, minifigs, pieces, imageURL"
         title = "500+"
         mycursor.execute(sql)
         category = mycursor.fetchall()
@@ -509,7 +511,7 @@ def addlegosuccess():
 def mylegos():
     try:
         sessionid = session['email']
-        sql = "SELECT * FROM seller WHERE userid = '" + userid + "'"
+        sql = "SELECT * FROM seller WHERE userid = '" + sessionid + "'"
         mycursor.execute(sql)
         if mycursor.fetchone() is None:
             return render_template('legos/notseller.html', legos = lego)

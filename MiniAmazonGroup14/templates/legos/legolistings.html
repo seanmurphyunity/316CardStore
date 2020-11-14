@@ -24,14 +24,14 @@
 
     {% for lego in top %}
         <div class="legolisting">
-        <img src={{ lego[7] }}>
+        <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', theme = lego[0], year = lego[1] name = lego[2], minifigs = lego[3], pieces = lego[4], price = lego[5], imageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
-        <h1 style="text-align: center;">${{ lego[6] }}</h1>
-        <h2> Theme: {{ lego[1] }} </h2>
-        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        <h1 style="text-align: center;">${{ lego[5] }}</h1>
+        <h2> Theme: {{ lego[0] }} </h2>
+        <h3> Year: {{ lego[1] }}, Pieces: {{ lego[4]}}, Minifigs: {{ lego[3] }} </h3>
         
         </div>
         {% if not loop.last %}
@@ -46,14 +46,14 @@
 
     {% for lego in budgetbuys %}
         <div class="legolisting">
-        <img src={{ lego[7] }}>
+        <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', theme = lego[0], year = lego[1] name = lego[2], minifigs = lego[3], pieces = lego[4], price = lego[5], imageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
-        <h1 style="text-align: center;">${{ lego[6] }}</h1>
-        <h2> Theme: {{ lego[1] }} </h2>
-        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        <h1 style="text-align: center;">${{ lego[5] }}</h1>
+        <h2> Theme: {{ lego[0] }} </h2>
+        <h3> Year: {{ lego[1] }}, Pieces: {{ lego[4]}}, Minifigs: {{ lego[3] }} </h3>
         
         </div>
         {% if not loop.last %}
@@ -68,14 +68,14 @@
 
     {% for lego in elite %}
         <div class="legolisting">
-        <img src={{ lego[7] }}>
+        <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', theme = lego[0], year = lego[1] name = lego[2], minifigs = lego[3], pieces = lego[4], price = lego[5], imageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
-        <h1 style="text-align: center;">${{ lego[6] }}</h1>
-        <h2> Theme: {{ lego[1] }} </h2>
-        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        <h1 style="text-align: center;">${{ lego[5] }}</h1>
+        <h2> Theme: {{ lego[0] }} </h2>
+        <h3> Year: {{ lego[1] }}, Pieces: {{ lego[4]}}, Minifigs: {{ lego[3] }} </h3>
         
         </div>
         {% if not loop.last %}
@@ -90,14 +90,14 @@
 
     {% for lego in quickbuild %}
         <div class="legolisting">
-        <img src={{ lego[7] }}>
+        <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', theme = lego[0], year = lego[1] name = lego[2], minifigs = lego[3], pieces = lego[4], price = lego[5], imageURL = lego[6]) }}">{{ lego[2] }}</a> 
         
-        <h1 style="text-align: center;">${{ lego[6] }}</h1>
-        <h2> Theme: {{ lego[1] }} </h2>
-        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        <h1 style="text-align: center;">${{ lego[5] }}</h1>
+        <h2> Theme: {{ lego[0] }} </h2>
+        <h3> Year: {{ lego[1] }}, Pieces: {{ lego[4]}}, Minifigs: {{ lego[3] }} </h3>
         
         </div>
         {% if not loop.last %}
@@ -112,14 +112,14 @@
 
     {% for lego in longbuild %}
         <div class="legolisting">
-        <img src={{ lego[7] }}>
+        <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', theme = lego[0], year = lego[1] name = lego[2], minifigs = lego[3], pieces = lego[4], price = lego[5], imageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
-        <h1 style="text-align: center;">${{ lego[6] }}</h1>
-        <h2> Theme: {{ lego[1] }} </h2>
-        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        <h1 style="text-align: center;">${{ lego[5] }}</h1>
+        <h2> Theme: {{ lego[0] }} </h2>
+        <h3> Year: {{ lego[1] }}, Pieces: {{ lego[4]}}, Minifigs: {{ lego[3] }} </h3>
         
         </div>
         {% if not loop.last %}
