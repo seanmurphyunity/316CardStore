@@ -30,13 +30,13 @@
   <div class = "column">
   {% for olego in onelego %}
   
-  <img src={{ olego[7] }}>
-  <h1>{{ olego[3] }} </h1>
-  <h1>${{ olego[6] }}</h1>
-  <h2> Theme: {{ olego[1] }} </h2>
-  <h3> Year: {{ olego[2] }}, Pieces: {{ olego[5]}}, Minifigs: {{ olego[4] }} </h3>
+  <img src={{ olego[6] }}>
+  <h1>{{ olego[2] }} </h1>
+  <h1>${{ olego[5] }}</h1>
+  <h2> Theme: {{ olego[0] }} </h2>
+  <h3> Year: {{ olego[1] }}, Pieces: {{ olego[4]}}, Minifigs: {{ olego[3] }} </h3>
   <form method="post" action="{{ url_for('legos.addtocart')}}">
-    <input type="hidden" name= "legoid" id = "legoid" value = {{olego[0]}}>
+    <input type="hidden" name= "name" id = "name" value = {{olego[0]}}>
     <label for="quantity">Quantity</label>
     <input type="quantity" name="quantity" id="quantity" required>
     <br>
