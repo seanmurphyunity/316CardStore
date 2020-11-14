@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 
-{% block content %}
+  {% block content %}
+  <style>
+      .authfail a {
+      background-color: #f1f1f1;
+      color: black;
+      padding: 16px;
+      text-decoration: none;
+      display: block;
+    }
 
+    .authfail a:hover {
+      background-color: #012169;
+      color: white;
+    } 
+  </style>
+  <h1>You're logged out!</h1>
+  <br>
+  <div class="authfail">
+      <!-- make this view sets you are selling once we make filters-->
+    <a href="{{ url_for('index') }}">Home</a>
+  </div>
 
 {% endblock %}

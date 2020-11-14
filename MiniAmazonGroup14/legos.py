@@ -9,7 +9,7 @@ bp = Blueprint('legos', __name__, url_prefix='/legos')
 def legolistings():
     try:
         sessionid = session['email']
-        @bp.route('/legolistings',  methods=('GET', 'POST'))
+        #@bp.route('/legolistings',  methods=('GET', 'POST'))
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
 
