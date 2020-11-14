@@ -13,15 +13,104 @@
       border: 15px #012169;
     }
   </style>
-  <h2>Lego Listings</h2>
+  <h2>Legos</h2>
   <a href="{{ url_for('legos.search') }}">Search</a>
   <br>
   <a href="{{ url_for('legos.categoryselect') }}">Categories</a>
 
+  <h2>{{ firsttitle }}</h2>
 
   <div style="column-count: 2;">
 
-    {% for lego in legos %}
+    {% for lego in top %}
+        <div class="legolisting">
+        <img src={{ lego[7] }}>
+        <br>
+        
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        
+        <h1 style="text-align: center;">${{ lego[6] }}</h1>
+        <h2> Theme: {{ lego[1] }} </h2>
+        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        
+        </div>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+  </div>
+
+  <h2>Budget Buys</h2>
+
+  <div style="column-count: 2;">
+
+    {% for lego in budgetbuys %}
+        <div class="legolisting">
+        <img src={{ lego[7] }}>
+        <br>
+        
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        
+        <h1 style="text-align: center;">${{ lego[6] }}</h1>
+        <h2> Theme: {{ lego[1] }} </h2>
+        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        
+        </div>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+  </div>
+
+  <h2>Elite Sets</h2>
+
+  <div style="column-count: 2;">
+
+    {% for lego in elite %}
+        <div class="legolisting">
+        <img src={{ lego[7] }}>
+        <br>
+        
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        
+        <h1 style="text-align: center;">${{ lego[6] }}</h1>
+        <h2> Theme: {{ lego[1] }} </h2>
+        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        
+        </div>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+  </div>
+
+  <h2>Quick Builds</h2>
+
+  <div style="column-count: 2;">
+
+    {% for lego in quickbuild %}
+        <div class="legolisting">
+        <img src={{ lego[7] }}>
+        <br>
+        
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        
+        <h1 style="text-align: center;">${{ lego[6] }}</h1>
+        <h2> Theme: {{ lego[1] }} </h2>
+        <h3> Year: {{ lego[2] }}, Pieces: {{ lego[5]}}, Minifigs: {{ lego[4] }} </h3>
+        
+        </div>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+  </div>
+
+  <h2>Long Builds</h2>
+
+  <div style="column-count: 2;">
+
+    {% for lego in longbuild %}
         <div class="legolisting">
         <img src={{ lego[7] }}>
         <br>
