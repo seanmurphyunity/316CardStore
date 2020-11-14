@@ -16,8 +16,8 @@
     } 
   </style>
   
-    <h1>Purchase Number:{{ items[0][0] }}</h1>
-    <h1>Date:{{ items[0][1] }}</h1>
+    <h1>Purchase Number: {{ items[0][0] }}</h1>
+    <h1>Date: {{ items[0][1] }}</h1>
     
       
       
@@ -49,6 +49,16 @@
       {% endfor %}
       </table>
   <br>
+  <h3>Add a Review:</h3>
+  <form method="post">
+    <input type="hidden" name= "pnum" id = "pnum" value = {{items[0][0]}}> 
+    <label for="stars">Stars(1-5):</label>
+    <input type="stars" name="stars" id="stars">
+    <label for="review_text">Comments:</label>
+    <input type="review_text" name="review_text" id="review_text">
+
+    <input type="submit" value="Submit Review">
+ </form>
   <div class="cartsuccess">
       <!-- make this view sets you are selling once we make filters-->
     

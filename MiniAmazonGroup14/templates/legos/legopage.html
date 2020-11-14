@@ -12,14 +12,27 @@
       margin: 15px;
       border: 15px #012169;
     }
+
+    .column {
+      float: left;
+      width: 50%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
   </style>
   
-
+  <div class="row">
+  <div class = "column">
   {% for olego in onelego %}
   
   <img src={{ olego[7] }}>
   <h1>{{ olego[3] }} </h1>
-  <h1 style="text-align: center;">${{ olego[6] }}</h1>
+  <h1>${{ olego[6] }}</h1>
   <h2> Theme: {{ olego[1] }} </h2>
   <h3> Year: {{ olego[2] }}, Pieces: {{ olego[5]}}, Minifigs: {{ olego[4] }} </h3>
   <form method="post" action="{{ url_for('legos.addtocart')}}">
@@ -29,12 +42,30 @@
     <br>
     <input type="submit" value="Add to Cart">
   </form>
-  </div>
   {% if not loop.last %}
   <hr>
   {% endif %}
-{% endfor %}
+  {% endfor %}
+  </div>
+  
+  <div class = "column"></div>
+  {% if noreviews %}
+    <h1> Reviews: </h1>
+    <h3> {{ noreviews }} </h3>
+  {% endif %}
 
+  {% if avgReview %}
+    <h1> Average rating: {{ avgReview }} stars </h1>
+    <h3> <u>Reviews:</u> </h3>
 
+    {% for review in reviews %}
+      <h4> Rating: {{review[5] }}</h3>
+      <h5> Comments: {{review[6] }} </h4>
+
+  {% endfor %}
+  {% endif %}
+
+  </div>
+  </div>
 
 {% endblock %}

@@ -28,9 +28,29 @@ def legopage(legoid):
         #val = (setid)
     mycursor.execute('SELECT * FROM Lego WHERE id = %s', (legoid, ))
     lego = mycursor.fetchall()
-    print(lego)
+
+    mycursor.execute('SELECT * FROM Review WHERE legoid = %s', (legoid, ))
+    reviews = mycursor.fetchall()
+    print(reviews)
+    if not reviews == []:
+        noreviews = None
+        sum = 0.0
+        reviewCount = 0
+        for review in reviews:
+            sum += review[5]
+            reviewCount += 1
+        avgReview = sum / reviewCount
+        return render_template('legos/legopage.html', legoid =legoid, onelego = lego, reviews = reviews, avgReview = avgReview)
+    else:
+        avgReview = None
+        noreviews = "There are no reviews for this product yet."
+        return render_template('legos/legopage.html', legoid =legoid, onelego = lego, reviews = reviews, noreviews = noreviews)
+        
+        
+    
+
         #return redirect(url_for('legos.legopage', legoid =legoid))
-    return render_template('legos/legopage.html', legoid =legoid, onelego = lego)
+    #return render_template('legos/legopage.html', legoid =legoid, onelego = lego, reviews = reviews, noreviews = noreviews, avgReview = avgReview)
 
 @bp.route('/search',  methods=('GET', 'POST'))
 def search():
