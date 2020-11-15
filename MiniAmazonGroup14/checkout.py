@@ -90,6 +90,7 @@ def sold(cartid, sessionid):
         print(cartid)
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
+        
         sql = "select ci.legoid, s.sellerid, ca.buyerid, c.date_bought, ci.quantity, s.quantity, l.price from checkout c, cart_item ci, sells s, cart ca, Lego l where c.cartid = %s and l.id = ci.legoid and c.cartid = ci.cartid and ci.legoid = s.legoid and ci.cartid = ca.cartid"
         val = (cartid, )
         mycursor.execute(sql, val)
@@ -164,7 +165,7 @@ def addbalance():
 
 
 def rangensnum(): 
-    s = random.randrange(10000)  
+    s = random.randrange(10000000)  
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
     sql = "select sales_num from sales_history"
@@ -176,7 +177,7 @@ def rangensnum():
         return s  
     
 def rangenpnum(): 
-    p = random.randrange(10000)  
+    p = random.randrange(1000000)  
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
     sql = "select purchase_num from buyer_history"
@@ -188,7 +189,7 @@ def rangenpnum():
         return p
 
 def rangencartnum(): 
-    cart = random.randrange(10000)  
+    cart = random.randrange(1000000)  
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
     sql = "select cartid from cart"

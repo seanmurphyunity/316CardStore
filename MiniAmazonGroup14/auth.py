@@ -85,6 +85,7 @@ def register():
             sql = "INSERT INTO users (userid, name, address, password, balance, photo_path, phone_numberr, cur_cart) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             val = (email, name, address, password, balance, photo, phonenumber, initialCart)
             mycursor.execute(sql, val)
+            
             mydb.commit()
             sql = "INSERT INTO passwordRecovery (userid, question, answer) VALUES (%s, %s, %s)"
             val = (email, securityQuestion, securityAnswer)
@@ -98,6 +99,7 @@ def register():
                     sql = "INSERT INTO buyer (buyerid, userid) VALUES (%s, %s)"
                     val = (buyerid, email)
                     mycursor.execute(sql, val)
+                    mycursor.execute("insert into cart (cartid, buyerid) values (%s, %s)", (initialCart, buyerid))
                     mydb.commit()
             except:
                 print("Not a buyer")
@@ -252,7 +254,7 @@ def logout():
 
 
 def genBuyerNum(): 
-    newBuyerId = random.randrange(1, 10000, 1)  
+    newBuyerId = random.randrange(1, 1000000, 1)  
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
     sql = "select buyerid from buyer"
@@ -264,7 +266,7 @@ def genBuyerNum():
         return newBuyerId
 
 def genSellerNum():
-    newSellerId = random.randrange(1, 10000, 1)
+    newSellerId = random.randrange(1, 1000000, 1)
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
     sql = "select sellerid from seller"
@@ -276,7 +278,7 @@ def genSellerNum():
         return newSellerId
 
 def rangencartnum(): 
-    cart = random.randrange(10000)  
+    cart = random.randrange(1000000)  
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
     sql = "select cartid from cart"

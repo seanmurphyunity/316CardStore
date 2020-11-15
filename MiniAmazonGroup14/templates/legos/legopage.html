@@ -28,24 +28,29 @@
   
   <div class="row">
   <div class = "column">
-  {% for olego in onelego %}
+ 
   
-  <img src={{ olego[6] }}>
-  <h1>{{ olego[2] }} </h1>
-  <h1>${{ olego[5] }}</h1>
-  <h2> Theme: {{ olego[0] }} </h2>
-  <h3> Year: {{ olego[1] }}, Pieces: {{ olego[4]}}, Minifigs: {{ olego[3] }} </h3>
+  <img src={{ onelego[7] }}>
+  <h1>{{ onelego[3] }} </h1>
+  
+  <h2> Theme: {{ onelego[1] }} </h2>
+  <h3> Year: {{ onelego[2] }}, Pieces: {{ onelego[5]}}, Minifigs: {{ onelego[4] }} </h3>
+  
+  <h1>Purchase Options </h1>
+  {% for sell in sellers %}
+  <h3> Seller: {{sell[0] }}</h3>
+  <h3> Quantity: {{sell[2] }} </h3>
   <form method="post" action="{{ url_for('legos.addtocart')}}">
-    <input type="hidden" name= "name" id = "name" value = {{olego[0]}}>
+    <input type="hidden" name= "legoid" id = "legoid" value = {{sell[1]}}>
+    <input type="hidden" name= "sellerid" id = "sellerid" value = {{sell[0]}}>
     <label for="quantity">Quantity</label>
     <input type="quantity" name="quantity" id="quantity" required>
     <br>
     <input type="submit" value="Add to Cart">
   </form>
-  {% if not loop.last %}
+{% endfor %}
   <hr>
-  {% endif %}
-  {% endfor %}
+  
   </div>
   
   <div class = "column"></div>

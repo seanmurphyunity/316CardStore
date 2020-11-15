@@ -159,22 +159,26 @@ def legolistings():
     #print(longret)
     return render_template('legos/legolistings.html', top = topret, budgetbuys = budgetret, elite = eliteret, quickbuild = quickret, longbuild = longret, firsttitle = firsttitle)
 
-@bp.route('/legopage/<name><theme><year><minifigs><pieces>',  methods=('GET', 'POST'))
-def legopage(theme, year, name, minifigs, pieces, ImageURL):
-
+@bp.route('/legopage/<name>/<theme>/<year>/<minifigs>/<pieces>/', methods=('GET', 'POST'))
+def legopage(name,theme, year, minifigs, pieces):
+    #/<theme>/<year>/<minifigs>/<pieces>/<ImageURL>
+    #, theme, year, minifigs, pieces, ImageURL
         #setid = request.form['legoid']
     mydb = MiniAmazonGroup14.db.getdb()
     mycursor = mydb.cursor()
         #sql = "SELECT * FROM Lego WHERE id = %s" 
         #val = (setid)
-
+    mycursor.execute('SELECT S.sellerid, S.legoid, S.quantity FROM sells S, Lego L WHERE L.name = %s and L.id = S.legoid', (name, ))
+    sellers = mycursor.fetchall()
+    print(sellers)
     #change to be where all the others are equal too
     mycursor.execute('SELECT * FROM Lego WHERE name = %s', (name, ))
-    lego = mycursor.fetchall()
+    lego = mycursor.fetchall()[0]
+    #print(lego)
 
-    mycursor.execute('SELECT * FROM Review WHERE name = %s', (name, ))
+    mycursor.execute('SELECT * FROM Review R, Lego L WHERE L.name = %s and L.id = R.legoid', (name, ))
     reviews = mycursor.fetchall()
-    print(reviews)
+    #print(reviews)
     if not reviews == []:
         noreviews = None
         sum = 0.0
@@ -183,12 +187,13 @@ def legopage(theme, year, name, minifigs, pieces, ImageURL):
             sum += review[5]
             reviewCount += 1
         avgReview = sum / reviewCount
-        return render_template('legos/legopage.html', name =name, onelego = lego, reviews = reviews, avgReview = avgReview)
+        #return render_template('legos/legopage.html', name =name, theme = theme, year = year, minifigs = minifigs, pieces = pieces, ImageURL = ImageURL, onelego = lego, reviews = reviews, avgReview = avgReview)
+        return render_template('legos/legopage.html', onelego = lego, reviews = reviews, avgReview = avgReview, sellers = sellers)
     else:
         avgReview = None
         noreviews = "There are no reviews for this product yet."
-        return render_template('legos/legopage.html', name =name, onelego = lego, reviews = reviews, noreviews = noreviews)
-        
+        #return render_template('legos/legopage.html', name =name, theme = theme, year = year, minifigs = minifigs, pieces = pieces, ImageURL = ImageURL, onelego = lego, reviews = reviews, noreviews = noreviews)
+        return render_template('legos/legopage.html', onelego = lego, reviews = reviews, avgReview = avgReview, sellers = sellers)
         
     
 
@@ -435,7 +440,7 @@ def category(categoryid):
 @bp.route('/addlego', methods=('GET', 'POST'))
 def addlego():
     if request.method == 'POST':
-        setid = request.form['id']
+        setid = rangenlegonum()
         name = request.form['name']
         price = request.form['price']
         theme = request.form['theme']
@@ -465,42 +470,51 @@ def addtocart():
             print('not logged in') 
         mydb = MiniAmazonGroup14.db.getdb()
         mycursor = mydb.cursor()
-        mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
-        cart = mycursor.fetchone()[0]
-        print(mycursor.fetchone())
-        legoid = request.form['legoid']
-        quantity = int(request.form['quantity'])
-        #link from legopage
-        print(quantity)
+        mycursor.execute('SELECT userid FROM buyer')
+        buyers = mycursor.fetchall()
         
-        mycursor.execute('SELECT * FROM cart_item WHERE cartid = %s and legoid =%s' , (cart, legoid))
-        item = mycursor.fetchone()
-        sql1 = "SELECT sum(quantity) FROM sells where legoid = %s"
-        val2 = (legoid,)
-        mycursor.execute(sql1,val2)
-        forsale = mycursor.fetchone()
-        print(forsale)
-        error=None
-        if forsale[0] is not None and forsale[0] >= quantity: 
-            if item is not None:
-                #print(user)
-                #error = 'User already registered'
-                sql = "UPDATE cart_item SET quantity = %s where cartid = %s and legoid = %s"
-                val = (quantity, cart, legoid)
-                mycursor.execute(sql, val)
-                mydb.commit()
-                error = "updated quanity"
-                return render_template('cart/addedtocart.html')
-            if error is None:
-                sql = "INSERT INTO cart_item(cartid, legoid, quantity) VALUES (%s, %s, %s)"
-                val = (cart, legoid, quantity)
-                mycursor.execute(sql, val)
-                mydb.commit()
-            
-        #return redirect(url_for('legos.addtocart'))
-                return render_template('cart/addedtocart.html')
+        res = [''.join(i) for i in buyers]
+        print(res)
+        if sessionid not in res: 
+            return render_template('cart/Notbuyer.html')
         else: 
-            return render_template('cart/quantitylow.html')
+            mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
+            cart = mycursor.fetchone()[0]
+            print(mycursor.fetchone())
+            legoid = request.form['legoid']
+            sellerid = request.form['sellerid']
+            quantity = int(request.form['quantity'])
+            #link from legopage
+            print(quantity)
+            
+            mycursor.execute('SELECT * FROM cart_item WHERE cartid = %s and legoid =%s' , (cart, legoid))
+            item = mycursor.fetchone()
+            sql1 = "SELECT quantity FROM sells where legoid = %s and sellerid = %s"
+            val2 = (legoid,sellerid)
+            mycursor.execute(sql1,val2)
+            forsale = mycursor.fetchone()
+            print(forsale)
+            error=None
+            if forsale[0] >= quantity: 
+                if item is not None:
+                    #print(user)
+                    #error = 'User already registered'
+                    sql = "UPDATE cart_item SET quantity = %s where cartid = %s and legoid = %s"
+                    val = (quantity, cart, legoid)
+                    mycursor.execute(sql, val)
+                    mydb.commit()
+                    error = "updated quanity"
+                    return render_template('cart/addedtocart.html')
+                if error is None:
+                    sql = "INSERT INTO cart_item(cartid, legoid, quantity) VALUES (%s, %s, %s)"
+                    val = (cart, legoid, quantity)
+                    mycursor.execute(sql, val)
+                    mydb.commit()
+                
+            #return redirect(url_for('legos.addtocart'))
+                    return render_template('cart/addedtocart.html')
+            else: 
+                return render_template('cart/quantitylow.html')
 
 @bp.route('/addlegosuccess', methods=('GET', 'POST'))
 def addlegosuccess():
@@ -528,3 +542,15 @@ def mylegos():
                 return render_template('legos/nolegos.html')
         except:
             return render_template('auth/mustlogin.html')
+
+def rangenlegonum(): 
+    lego = random.randrange(10000000)  
+    mydb = MiniAmazonGroup14.db.getdb()
+    mycursor = mydb.cursor()
+    sql = "select legoid from Lego"
+    mycursor.execute(sql)
+    nums = mycursor.fetchall()
+    if lego in nums: 
+        rangenlegonum
+    else: 
+        return lego

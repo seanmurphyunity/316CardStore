@@ -19,8 +19,10 @@ def cartpage():
     mycursor.execute(sql)
     test = mycursor.fetchall()
     print(test)
+
     #email = "kelly.george@yahoo.com"  
-    mycursor.execute("SELECT l.name, l.price, l.imageURL, l.id , ci.quantity FROM cart_item ci, Lego l, buyer b, users u WHERE b.userid =%s  and b.userid = u.userid and u.cur_cart  = ci.cartid and l.id = ci.legoid", (sessionid,))
+    #mycursor.execute("SELECT l.name, l.price, l.imageURL, l.id , ci.quantity FROM cart_item ci, Lego l, buyer b, users u WHERE b.userid =%s  and b.userid = u.userid and u.cur_cart  = ci.cartid and l.id = ci.legoid", (sessionid,))
+    mycursor.execute("select l.name, l.price, l.imageURL, l.theme, l.year, l.minifigs, l.pieces, l.id, ci.quantity from sells s, cart_item ci, Lego l, users u where u.userid =%s and ci.cartid = u.cur_cart and l.id = ci.legoid and l.id = s.legoid", (sessionid, ))
     #val = 1
     #mycursor.execute(sql,val)
     #user needs to be one that is logged in 
@@ -30,10 +32,11 @@ def cartpage():
     #full = mycursor.fetchone()
     totalprice = 0
     for i in cart: 
-        totalprice = totalprice + (i[1]* i[4])
+        totalprice = totalprice + (i[1]* i[8])
     print(totalprice)
     if len(cart) != 0: 
         return render_template('cart/cartpage.html', cart = cart, totalprice = totalprice)
+        #return render_template('cart/cartpage.html', cart = cart)
     else: 
        return render_template('cart/emptycart.html')
 
