@@ -295,6 +295,36 @@ def category(categoryid):
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
+    elif categoryid == 'ninjago':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Ninjago' GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "Ninjago"
+        mycursor.execute(sql)
+        category = mycursor.fetchall()
+        return render_template('legos/categoryresults.html', category = category, title = title)
+    elif categoryid == 'castle':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Castle' GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "Castle"
+        mycursor.execute(sql)
+        category = mycursor.fetchall()
+        return render_template('legos/categoryresults.html', category = category, title = title)
+    elif categoryid == 'marvelsuperheroes':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Marvel Super Heroes' GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "Marvel Super Heroes"
+        mycursor.execute(sql)
+        category = mycursor.fetchall()
+        return render_template('legos/categoryresults.html', category = category, title = title)
+    elif categoryid == 'sports':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'Sports' GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "Sports"
+        mycursor.execute(sql)
+        category = mycursor.fetchall()
+        return render_template('legos/categoryresults.html', category = category, title = title)
+    elif categoryid == 'city':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE theme = 'City' GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "City"
+        mycursor.execute(sql)
+        category = mycursor.fetchall()
+        return render_template('legos/categoryresults.html', category = category, title = title)
 
     #pieces
     elif categoryid == 'pieces0':
@@ -379,21 +409,27 @@ def category(categoryid):
         return render_template('legos/categoryresults.html', category = category, title = title)
 
     #year
-    elif categoryid == 'year2018':
-        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year = 2018 GROUP BY theme, year, name, minifigs, pieces, imageURL"
-        title = "2018 Sets"
+    elif categoryid == 'before2000':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year < 2000 GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "Before 2000"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
-    elif categoryid == 'year2019':
-        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year = 2019 GROUP BY theme, year, name, minifigs, pieces, imageURL"
-        title = "2019 Sets"
+    elif categoryid == '2000to2010':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year >= 2000 AND year <= 2010 GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "2000 to 2010"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)
-    elif categoryid == 'year2020':
-        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year = 2020 GROUP BY theme, year, name, minifigs, pieces, imageURL"
-        title = "2020 Sets"
+    elif categoryid == '2010to2015':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year >= 2010 AND year <= 2015 GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "2010 to 2015"
+        mycursor.execute(sql)
+        category = mycursor.fetchall()
+        return render_template('legos/categoryresults.html', category = category, title = title)
+    elif categoryid == '2015to2020':
+        sql = "SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE year >= 2015 AND year <= 2020 GROUP BY theme, year, name, minifigs, pieces, imageURL"
+        title = "2015 to 2020"
         mycursor.execute(sql)
         category = mycursor.fetchall()
         return render_template('legos/categoryresults.html', category = category, title = title)

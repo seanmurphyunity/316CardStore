@@ -12,6 +12,16 @@
   <a href="{{ url_for('legos.category', categoryid = 'starwars' ) }}">Star Wars</a>
   <br>
   <a href="{{ url_for('legos.category', categoryid = 'harrypotter' ) }}">Harry Potter</a>
+  <br>
+  <a href="{{ url_for('legos.category', categoryid = 'ninjago' ) }}">Ninjago</a>
+  <br>
+  <a href="{{ url_for('legos.category', categoryid = 'castle' ) }}">Castle</a>
+  <br>
+  <a href="{{ url_for('legos.category', categoryid = 'marvelsuperheroes' ) }}">Marvel Super Heroes</a>
+  <br>
+  <a href="{{ url_for('legos.category', categoryid = 'sports' ) }}">Sports</a>
+  <br>
+  <a href="{{ url_for('legos.category', categoryid = 'city' ) }}">City</a>
   <form method="post">
     <label for="theme">Theme</label>
     <input type="theme" name="theme" id="theme" required>
@@ -89,11 +99,13 @@
   <br>
 
   <h3>Year</h3>
-  <a href="{{ url_for('legos.category', categoryid = 'year2018' ) }}">2018</a>
+  <a href="{{ url_for('legos.category', categoryid = 'before2000' ) }}">Before 2000</a>
   <br>
-  <a href="{{ url_for('legos.category', categoryid = 'year2019' ) }}">2019</a>
+  <a href="{{ url_for('legos.category', categoryid = '2000to2010' ) }}">2000 - 2010</a>
   <br>
-  <a href="{{ url_for('legos.category', categoryid = 'year2020' ) }}">2020</a>
+  <a href="{{ url_for('legos.category', categoryid = '2010to2015' ) }}">2010 - 2015</a>
+  <br>
+  <a href="{{ url_for('legos.category', categoryid = '2015to2020' ) }}">2015 - 2020</a>
   <form method="post">
     <label for="minyear">Min Year:</label>
     <input type="minyear" name="minyear" id="minyear" required>
