@@ -1,7 +1,7 @@
 
 from flask import (
     Blueprint, render_template, request, redirect, url_for, session)
-import MiniAmazonGroup14.db
+from mainpkg import db
 
 bp = Blueprint('cart', __name__, url_prefix='/cart')
 
@@ -13,7 +13,7 @@ def cartpage():
         sessionid = session['email']
     except:
         return render_template('auth/mustlogin.html')
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "SELECT * FROM users WHERE userid = '" + sessionid + "'"
     mycursor.execute(sql)
@@ -50,7 +50,7 @@ def removefromcart():
         #cartid = request.form['id']
         #live variable 
         #cartid = 1003
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
         cart = mycursor.fetchone()[0]
@@ -60,7 +60,7 @@ def removefromcart():
         #legoid = 30732
         #link from legopage
         print(cart, legoid)
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         if quantity == '0':
             mycursor.execute('DELETE FROM cart_item where cartid = %s and legoid = %s', (cart, legoid))

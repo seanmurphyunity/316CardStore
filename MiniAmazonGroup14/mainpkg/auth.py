@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, render_template, request, redirect, url_for, session
 )
-import MiniAmazonGroup14.db
+from mainpkg import db
 import random
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -14,7 +14,7 @@ def login():
             email = request.form['email']
             session['email'] = email
             password = request.form['password']
-            mydb = MiniAmazonGroup14.db.getdb()
+            mydb = db.getdb()
             mycursor = mydb.cursor()
             mycursor.execute('SELECT * FROM users WHERE userid = %s', (email,))
             user = mycursor.fetchone()
@@ -30,7 +30,7 @@ def login():
             try:
                 femail = request.form['femail']
                 # security question = get sec q
-                mydb = MiniAmazonGroup14.db.getdb()
+                mydb = db.getdb()
                 mycursor = mydb.cursor()
                 mycursor.execute('SELECT * FROM passwordRecovery WHERE userid = %s', (femail,))    
                 user = mycursor.fetchone()
@@ -44,7 +44,7 @@ def login():
             except:
                 answer = request.form['answer']
                 userid = request.form['email']
-                mydb = MiniAmazonGroup14.db.getdb()
+                mydb = db.getdb()
                 mycursor = mydb.cursor()
                 mycursor.execute('SELECT * FROM passwordRecovery WHERE userid = %s', (userid,))    
                 user = mycursor.fetchone()
@@ -73,7 +73,7 @@ def register():
         securityAnswer = request.form['answer']
         initialCart = rangencartnum()
         balance = 0
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT * FROM users WHERE userid = %s', (email,))
         user = mycursor.fetchone()
@@ -144,7 +144,7 @@ def profile():
         sessionid = session['email']
     except:
         return render_template('auth/mustlogin.html')
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     print(sessionid)
     userData = ["userid", "name", "address", "password", "balance", "photo_path", "phone_numberr", "cur_cart"]
@@ -193,7 +193,7 @@ def profile():
         buyerStatus = "Currently a buyer"
 
     if request.method == 'POST':
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         try: 
             address = request.form['newaddress']
@@ -255,7 +255,7 @@ def logout():
 
 def genBuyerNum(): 
     newBuyerId = random.randrange(1, 1000000, 1)  
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "select buyerid from buyer"
     mycursor.execute(sql)
@@ -267,7 +267,7 @@ def genBuyerNum():
 
 def genSellerNum():
     newSellerId = random.randrange(1, 1000000, 1)
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "select sellerid from seller"
     mycursor.execute(sql)
@@ -279,7 +279,7 @@ def genSellerNum():
 
 def rangencartnum(): 
     cart = random.randrange(1000000)  
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "select cartid from cart"
     mycursor.execute(sql)

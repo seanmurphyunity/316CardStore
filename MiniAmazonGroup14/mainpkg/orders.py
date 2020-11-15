@@ -2,7 +2,7 @@
 from flask import (
     Blueprint, render_template, request, redirect, url_for, session)
 
-import MiniAmazonGroup14.db
+from mainpkg import db
 import random
 
 bp = Blueprint('orders', __name__, url_prefix='/orders')
@@ -10,7 +10,7 @@ bp = Blueprint('orders', __name__, url_prefix='/orders')
 
 @bp.route('/purchase_history', methods=('GET','POST'))
 def purchase_history():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     try: 
         sessionid = session['email']
@@ -26,7 +26,7 @@ def purchase_history():
 
 @bp.route('/purchase', methods=('GET', 'POST'))
 def purchase():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     pnum = request.form['pnum']
     mycursor = mydb.cursor()
     try: 
@@ -41,7 +41,7 @@ def purchase():
     #mycursor.execute("SELECT * FROM buyer_history")
     items = mycursor.fetchall()
     try:
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         star_input = request.form['stars']
         if star_input > 5:
@@ -73,7 +73,7 @@ def purchase():
 
 @bp.route('/sales_history')
 def sales_history():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     try: 
         sessionid = session['email']
@@ -91,7 +91,7 @@ def sales_history():
 
 @bp.route('/sale', methods=('GET', 'POST'))
 def sale():
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     snum = request.form['snum']
     print(snum)
     mycursor = mydb.cursor()
@@ -111,8 +111,8 @@ def sale():
     return render_template('orders/sale.html', items =items)
 
 def genReviewId():
-    newReviewId = random.randrange(3000, 100000, 1)
-    mydb = MiniAmazonGroup14.db.getdb()
+    newReviewId = random.randrange(3000, 1000000, 1)
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     mycursor.execute("select reviewID from Review")
     nums = mycursor.fetchall()

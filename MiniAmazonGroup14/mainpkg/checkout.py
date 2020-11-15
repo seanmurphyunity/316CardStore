@@ -3,7 +3,7 @@ from flask import (
     Blueprint, render_template, request, redirect, url_for, session)
 import random
 from datetime import  datetime
-import MiniAmazonGroup14.db
+from mainpkg import db
 
 bp = Blueprint('checkout', __name__, url_prefix='/checkout')
 
@@ -17,7 +17,7 @@ def checkout():
     except:
         return render_template('auth/mustlogin.html') 
     if request.method == 'POST':
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
         cartid = mycursor.fetchone()[0]
@@ -34,7 +34,7 @@ def checkout():
         pnum = rangenpnum()
         print(time)
         print(cartid, time, pnum)
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         sql = "SELECT balance FROM users where userid = %s"
         val = (sessionid,)
@@ -64,7 +64,7 @@ def checkout():
 
 def createnewcart(sessionid): 
     newcart = rangencartnum()
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     mycursor.execute("select buyerid from buyer where userid = %s", (sessionid, ))
     buyerid = mycursor.fetchall()[0][0]
@@ -88,7 +88,7 @@ def sold(cartid, sessionid):
         #snum = rangensnum()
       
         print(cartid)
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         
         sql = "select ci.legoid, s.sellerid, ca.buyerid, c.date_bought, ci.quantity, s.quantity, l.price from checkout c, cart_item ci, sells s, cart ca, Lego l where c.cartid = %s and l.id = ci.legoid and c.cartid = ci.cartid and ci.legoid = s.legoid and ci.cartid = ca.cartid"
@@ -132,7 +132,7 @@ def balancepage():
         sessionid = session['email']
     except:
         return render_template('auth/mustlogin.html')
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     
     mycursor.execute('select balance FROM users WHERE userid = %s' , (sessionid, ))
@@ -147,7 +147,7 @@ def addbalance():
         return render_template('auth/mustlogin.html')
     if request.method == 'POST':
         #need to add balance 
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         addamt = request.form['amt']
         mycursor.execute('select balance FROM users WHERE userid = %s' , (sessionid, ))
@@ -166,7 +166,7 @@ def addbalance():
 
 def rangensnum(): 
     s = random.randrange(10000000)  
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "select sales_num from sales_history"
     mycursor.execute(sql)
@@ -178,7 +178,7 @@ def rangensnum():
     
 def rangenpnum(): 
     p = random.randrange(1000000)  
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "select purchase_num from buyer_history"
     mycursor.execute(sql)
@@ -190,7 +190,7 @@ def rangenpnum():
 
 def rangencartnum(): 
     cart = random.randrange(1000000)  
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "select cartid from cart"
     mycursor.execute(sql)

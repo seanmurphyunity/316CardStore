@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, render_template, request, redirect, url_for, session
 )
-import MiniAmazonGroup14.db
+from mainpkg import db
 
 bp = Blueprint('legos', __name__, url_prefix='/legos')
 
@@ -10,7 +10,7 @@ def legolistings():
     try:
         sessionid = session['email']
         #@bp.route('/legolistings',  methods=('GET', 'POST'))
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
     except:
         return render_template('auth/mustlogin.html')
@@ -164,7 +164,7 @@ def legopage(name,theme, year, minifigs, pieces):
     #/<theme>/<year>/<minifigs>/<pieces>/<ImageURL>
     #, theme, year, minifigs, pieces, ImageURL
         #setid = request.form['legoid']
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
         #sql = "SELECT * FROM Lego WHERE id = %s" 
         #val = (setid)
@@ -204,7 +204,7 @@ def legopage(name,theme, year, minifigs, pieces):
 def search():
     if request.method == 'POST':
         searchterm = request.form['search']
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE name LIKE '%" + searchterm + "%' GROUP BY theme, year, name, minifigs, pieces, imageURL")
         search = mycursor.fetchall()
@@ -215,7 +215,7 @@ def search():
 @bp.route('/categoryselect',  methods=('GET', 'POST'))
 def categoryselect():
     if request.method == 'POST':
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         
         try:
@@ -267,7 +267,7 @@ def categoryselect():
 
 @bp.route('/category/<categoryid>',  methods=('GET', 'POST'))
 def category(categoryid):
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
 
     #themes
@@ -449,7 +449,7 @@ def addlego():
         pieces = request.form['pieces']
         image = request.form['image']
         print(setid, theme, year, name, minifigs, pieces, price, image)
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         sql = "INSERT INTO Lego (id, theme, year, name, minifigs, pieces, price, imageURL) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
         val = (setid, theme, year, name, minifigs, pieces, price, image)
@@ -468,7 +468,7 @@ def addtocart():
             sessionid = session['email']
         except:
             print('not logged in') 
-        mydb = MiniAmazonGroup14.db.getdb()
+        mydb = db.getdb()
         mycursor = mydb.cursor()
         mycursor.execute('SELECT userid FROM buyer')
         buyers = mycursor.fetchall()
@@ -531,7 +531,7 @@ def mylegos():
     except:
         try:
             sessionid = session['email']
-            mydb = MiniAmazonGroup14.db.getdb()
+            mydb = db.getdb()
             mycursor = mydb.cursor()
             mycursor.execute("SELECT l.id, l.theme, l.year, l.name, l.minifigs, l.pieces, l.price, l.imageURL FROM Lego l, seller s, sells ss WHERE s.userid = %s AND s.sellerid = ss.sellerid AND ss.legoid = l.id", (sessionid,))
             lego = mycursor.fetchall()
@@ -545,7 +545,7 @@ def mylegos():
 
 def rangenlegonum(): 
     lego = random.randrange(10000000)  
-    mydb = MiniAmazonGroup14.db.getdb()
+    mydb = db.getdb()
     mycursor = mydb.cursor()
     sql = "select legoid from Lego"
     mycursor.execute(sql)
