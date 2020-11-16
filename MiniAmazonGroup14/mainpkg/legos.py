@@ -57,6 +57,16 @@ def legolistings():
         topret = topret[:4]
         firsttitle = "Recommended for You"
 
+        if topret = []:
+            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
+            top = mycursor.fetchall()
+            topret = []
+            for x in top[:6]:
+                mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "'")
+                topcur = mycursor.fetchone()
+                topret.append(topcur)
+            firsttitle = "Top Rated"
+
     except:
         mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
         top = mycursor.fetchall()
