@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
 
+
   {% block content %}
 
+  <style>
+    .legolistinglink {
+      background-color: #E3000B;
+      color: #FFED00;
+      padding: 1em 1.5em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+  </style>
+  
   <h2>Categories</h2>
+  
 
   <h3>Theme</h3>
-  <a href="{{ url_for('legos.category', categoryid = 'creatorexpert' ) }}">Creator Expert</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'creatorexpert' ) }}">Creator Expert</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'duplo' ) }}">Duplo</a>
   <br>
-  <a href="{{ url_for('legos.category', categoryid = 'duplo' ) }}">Duplo</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'starwars' ) }}">Star Wars</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'harrypotter' ) }}">Harry Potter</a>
   <br>
-  <a href="{{ url_for('legos.category', categoryid = 'starwars' ) }}">Star Wars</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'ninjago' ) }}">Ninjago</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'castle' ) }}">Castle</a>
   <br>
-  <a href="{{ url_for('legos.category', categoryid = 'harrypotter' ) }}">Harry Potter</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'marvelsuperheroes' ) }}">Marvel Super Heroes</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'sports' ) }}">Sports</a>
   <br>
-  <a href="{{ url_for('legos.category', categoryid = 'ninjago' ) }}">Ninjago</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'castle' ) }}">Castle</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'marvelsuperheroes' ) }}">Marvel Super Heroes</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'sports' ) }}">Sports</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'city' ) }}">City</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'city' ) }}">City</a>
   <form method="post">
     <label for="theme">Theme</label>
     <input type="theme" name="theme" id="theme" required>
