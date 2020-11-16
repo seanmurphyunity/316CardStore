@@ -180,6 +180,10 @@ def legopage(name,theme, year, minifigs, pieces):
         #val = (setid)
     mycursor.execute('SELECT S.sellerid, S.legoid, S.quantity FROM sells S, Lego L WHERE L.name = %s and L.id = S.legoid', (name, ))
     sellers = mycursor.fetchall()
+    if sellers = []:
+        stock = 'In Stock'
+    else:
+        stock = 'Out of Stock'
     print(sellers)
     #change to be where all the others are equal too
     mycursor.execute('SELECT * FROM Lego WHERE name = %s', (name, ))
@@ -198,12 +202,12 @@ def legopage(name,theme, year, minifigs, pieces):
             reviewCount += 1
         avgReview = sum / reviewCount
         #return render_template('legos/legopage.html', name =name, theme = theme, year = year, minifigs = minifigs, pieces = pieces, ImageURL = ImageURL, onelego = lego, reviews = reviews, avgReview = avgReview)
-        return render_template('legos/legopage.html', onelego = lego, reviews = reviews, avgReview = avgReview, sellers = sellers)
+        return render_template('legos/legopage.html', onelego = lego, reviews = reviews, avgReview = avgReview, sellers = sellers, stock = stock)
     else:
         avgReview = None
         noreviews = "There are no reviews for this product yet."
         #return render_template('legos/legopage.html', name =name, theme = theme, year = year, minifigs = minifigs, pieces = pieces, ImageURL = ImageURL, onelego = lego, reviews = reviews, noreviews = noreviews)
-        return render_template('legos/legopage.html', onelego = lego, reviews = reviews, avgReview = avgReview, sellers = sellers)
+        return render_template('legos/legopage.html', onelego = lego, reviews = reviews, avgReview = avgReview, sellers = sellers, stock = stock)
         
     
 
