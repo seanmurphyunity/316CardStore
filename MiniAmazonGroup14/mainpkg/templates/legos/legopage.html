@@ -16,6 +16,8 @@
     .column {
       float: left;
       width: 50%;
+      column-gap: 10px;
+
     }
 
     /* Clear floats after the columns */
@@ -24,13 +26,17 @@
       display: table;
       clear: both;
     }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
   
   <div class="row">
   <div class = "column">
  
   
-  <img src={{ onelego[6] }}>
+  <img src={{ onelego[7] }}>
   <h1>{{ onelego[3] }} </h1>
   
   <h2> Theme: {{ onelego[1] }} </h2>
@@ -53,7 +59,7 @@
   
   </div>
   
-  <div class = "column"></div>
+  <div style="color: #012169; background-color: oldlace; border: #012169; " class = "column">
   {% if noreviews %}
     <h1> Reviews: </h1>
     <h3> {{ noreviews }} </h3>
@@ -69,7 +75,7 @@
 
   {% endfor %}
   {% endif %}
-
+  </div>
   </div>
   </div>
 

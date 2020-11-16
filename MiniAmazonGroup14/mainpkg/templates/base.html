@@ -31,6 +31,11 @@
       background-color: #ddd;
       color: black;
     }
+    .picture {
+      float: right ;
+      height: 50px;
+      width: 50px;
+    }
 </style>
 
 
@@ -40,7 +45,8 @@
     <a href="{{ url_for('legos.legolistings') }}">Legos</a>
     <a href="{{ url_for('auth.account') }}">Account</a>
     <a href="{{ url_for('cart.cartpage') }}">Cart</a>
-    <a href="{{ url_for('auth.logout') }}">Log Out</a>
+    <a style="float: right;" href="{{ url_for('auth.logout') }}">Log Out</a>
+    <img class="picture" src="https://www.lego.com/static/favicon/lego-logo-512.png"> 
   </div>
 
 <section>

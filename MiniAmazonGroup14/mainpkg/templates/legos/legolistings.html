@@ -12,22 +12,45 @@
       margin: 15px;
       border: 15px #012169;
     }
+    .legolistinglink {
+      background-color: #012169;
+      color: white;
+      padding: 1em 1.5em;
+      text-decoration: none;
+      text-transform: uppercase;
+
+    }
+    .legolink {
+      
+      color: #012169;
+      
+    }
+    div {
+      resize: both;
+      overflow: auto;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
   <h2>Legos</h2>
-  <a href="{{ url_for('legos.search') }}">Search</a>
+  <a class="legolistinglink" href="{{ url_for('legos.search') }}">Search</a>
   <br>
-  <a href="{{ url_for('legos.categoryselect') }}">Categories</a>
+  <br>
+  <br>
+  <a class="legolistinglink" href="{{ url_for('legos.categoryselect') }}">Categories</a>
 
   <h2>{{ firsttitle }}</h2>
 
-  <div style="column-count: 2;">
+  <div style="column-count: 2; align-self: auto;">
 
     {% for lego in top %}
         <div class="legolisting">
         <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
+        <a class="legolink" style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
         <h1 style="text-align: center;">${{ lego[5] }}</h1>
         <h2> Theme: {{ lego[0] }} </h2>
@@ -49,7 +72,7 @@
         <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
+        <a class="legolink" style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
         <h1 style="text-align: center;">${{ lego[5] }}</h1>
         <h2> Theme: {{ lego[0] }} </h2>
@@ -71,7 +94,7 @@
         <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
+        <a class="legolink" style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
         <h1 style="text-align: center;">${{ lego[5] }}</h1>
         <h2> Theme: {{ lego[0] }} </h2>
@@ -93,7 +116,7 @@
         <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
+        <a class="legolink" style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
         <h1 style="text-align: center;">${{ lego[5] }}</h1>
         <h2> Theme: {{ lego[0] }} </h2>
@@ -115,7 +138,7 @@
         <img src={{ lego[6] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
+        <a class="legolink" style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[2], theme = lego[0], year = lego[1], minifigs = lego[3], pieces = lego[4], ImageURL = lego[6] ) }}">{{ lego[2] }}</a> 
         
         <h1 style="text-align: center;">${{ lego[5] }}</h1>
         <h2> Theme: {{ lego[0] }} </h2>

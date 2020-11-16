@@ -202,7 +202,7 @@ def legopage(name,theme, year, minifigs, pieces):
     #change to be where all the others are equal too
     mycursor.execute('SELECT * FROM Lego WHERE name = %s', (name, ))
     lego = mycursor.fetchall()[0]
-    #print(lego)
+    print(lego)
 
     mycursor.execute('SELECT * FROM Review R, Lego L WHERE L.name = %s and L.id = R.legoid', (name, ))
     reviews = mycursor.fetchall()

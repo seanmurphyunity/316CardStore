@@ -30,14 +30,26 @@
         border: 20 px;
         border-color: royalblue;
     }
-    button {
+    .checkbutton {
         border: 0px;
-        background-color: white;
+        width: 150px;
+        height: 40px;
+        background-color: #012169;
+        color: white;
         
-        
-
-        
+       
     }
+
+    .updatebutton {
+        border: 0px;
+        width: 130px;
+        height: 35px;
+        background-color: #012169;
+        color: white;
+        
+       
+    }
+
 </style>
 
   <h1>My Cart</h1>
@@ -62,7 +74,7 @@
     <form name = 'remove' method="post">
         <input type="hidden" name= "legoid" id = "legoid" value = {{item[7]}}>
         <th> <input name = "quantity" id = "quantity" placeholder={{item[8]}}>  </th>
-        <th><input type = "submit" value = "Update"> </th>
+        <th><input class="updatebutton" type = "submit" value = "Update Quantity"> </th>
   
              
     </form>
@@ -77,7 +89,7 @@
        <form method ="POST" action="{{ url_for('checkout.checkout')}}">
         <input type="hidden" name= "total" id = "total" value = {{totalprice}}>
         <p id="display" name = "display"></p>
-    <button  type = "hidden" id="display" name = "display" value= Date()>Checkout </button> 
+    <button class="checkbutton" type = "hidden" id="display" name = "display" value= Date()>Checkout </button> 
    
         </form>
 
