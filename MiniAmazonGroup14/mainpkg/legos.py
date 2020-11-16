@@ -62,25 +62,25 @@ def legolistings():
             top = mycursor.fetchall()
             topret = []
             for x in top[:6]:
-                mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "'")
+                mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
                 topcur = mycursor.fetchone()
                 topret.append(topcur)
             firsttitle = "Top Rated"
 
         try:
-            checkval = topret[6]
-            checkval = topret[5]
-            checkval = topret[4]
-            checkval = topret[3]
-            checkval = topret[2]
-            checkval = topret[1]
-            checkval = topret[0]
+            checkval = str(topret[6])
+            checkval = str(topret[5])
+            checkval = str(topret[4])
+            checkval = str(topret[3])
+            checkval = str(topret[2])
+            checkval = str(topret[1])
+            checkval = str(topret[0])
         except:
             mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
             top = mycursor.fetchall()
             topret = []
             for x in top[:6]:
-                mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "'")
+                mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
                 topcur = mycursor.fetchone()
                 topret.append(topcur)
             firsttitle = "Top Rated"
@@ -92,7 +92,7 @@ def legolistings():
         top = mycursor.fetchall()
         topret = []
         for x in top[:6]:
-            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "'")
+            mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             topcur = mycursor.fetchone()
             topret.append(topcur)
         firsttitle = "Top Rated"
