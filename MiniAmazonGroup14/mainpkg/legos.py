@@ -56,25 +56,16 @@ def legolistings():
         topret = mycursor.fetchall()
         topret = topret[:4]
         firsttitle = "Recommended for You"
+        print(topret)
         
-        if topret == [] or topret == "" or topret == [()]:
-            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
-            top = mycursor.fetchall()
-            topret = []
-            for x in top[:4]:
-                mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
-                topcur = mycursor.fetchone()
-                topret.append(topcur)
-            firsttitle = "Top Rated"
-
         try:
-            checkval = str(topret[6])
-            checkval = str(topret[5])
-            checkval = str(topret[4])
-            checkval = str(topret[3])
-            checkval = str(topret[2])
-            checkval = str(topret[1])
-            checkval = str(topret[0])
+            checkval = str(topret[0][6])
+            checkval = str(topret[0][5])
+            checkval = str(topret[0][4])
+            checkval = str(topret[0][3])
+            checkval = str(topret[0][2])
+            checkval = str(topret[0][1])
+            checkval = str(topret[0][0])
         except:
             mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
             top = mycursor.fetchall()
@@ -84,19 +75,21 @@ def legolistings():
                 topcur = mycursor.fetchone()
                 topret.append(topcur)
             firsttitle = "Top Rated"
+            print(topret)
 
 
 
     except:
         mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
         top = mycursor.fetchall()
+        print(top)
         topret = []
         for x in top[:4]:
             mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             topcur = mycursor.fetchone()
             topret.append(topcur)
         firsttitle = "Top Rated"
-        #print(topret)
+        print(topret)
 
     sql =   "SELECT id, AVG(stars) AS astar FROM\
             (SELECT \
@@ -200,10 +193,11 @@ def legopage(name,theme, year, minifigs, pieces):
         #val = (setid)
     mycursor.execute('SELECT S.sellerid, S.legoid, S.quantity FROM sells S, Lego L WHERE L.name = %s and L.id = S.legoid', (name, ))
     sellers = mycursor.fetchall()
-    if sellers = []:
-        stock = 'In Stock'
-    else:
+    if sellers == []:
         stock = 'Out of Stock'
+        
+    else:
+        stock = 'In Stock'
     print(sellers)
     #change to be where all the others are equal too
     mycursor.execute('SELECT * FROM Lego WHERE name = %s', (name, ))
