@@ -57,11 +57,11 @@ def legolistings():
         topret = topret[:4]
         firsttitle = "Recommended for You"
         
-        if topret = [] or topret = "" or topret = [()]:
-            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
+        if topret == [] or topret == "" or topret == [()]:
+            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
             top = mycursor.fetchall()
             topret = []
-            for x in top[:6]:
+            for x in top[:4]:
                 mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
                 topcur = mycursor.fetchone()
                 topret.append(topcur)
@@ -76,10 +76,10 @@ def legolistings():
             checkval = str(topret[1])
             checkval = str(topret[0])
         except:
-            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
+            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
             top = mycursor.fetchall()
             topret = []
-            for x in top[:6]:
+            for x in top[:4]:
                 mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
                 topcur = mycursor.fetchone()
                 topret.append(topcur)
@@ -88,10 +88,10 @@ def legolistings():
 
 
     except:
-        mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
+        mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
         top = mycursor.fetchall()
         topret = []
-        for x in top[:6]:
+        for x in top[:4]:
             mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
             topcur = mycursor.fetchone()
             topret.append(topcur)
