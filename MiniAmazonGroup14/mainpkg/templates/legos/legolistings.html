@@ -11,6 +11,7 @@
       padding: 10px;
       margin: 15px;
       border: 15px #E3000B;
+      
     }
     .legolistinglink {
       background-color: #E3000B;
@@ -18,11 +19,14 @@
       padding: 1em 1.5em;
       text-decoration: none;
       text-transform: uppercase;
+      display: inline-block;
+      
 
     }
     .legolink {
       
       color: #E3000B;
+      
       
     }
     div {
@@ -33,14 +37,17 @@
       max-width: 100%;
       height: auto;
     }
-  </style>
-  <h2>Legos</h2>
-  <a class="legolistinglink" href="{{ url_for('legos.search') }}">Search</a>
-  <br>
-  <br>
-  <br>
-  <a class="legolistinglink" href="{{ url_for('legos.categoryselect') }}">Categories</a>
 
+    .center {
+      text-align: center;
+    }
+  </style>
+  <h2 style="text-align: center;">Legos</h2>
+  <div class="center">
+  <a class="legolistinglink" href="{{ url_for('legos.search') }}">Search</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.categoryselect') }}">Categories</a>
+  </div>
   <h2>{{ firsttitle }}</h2>
 
   <div style="column-count: 2; align-self: auto;">
