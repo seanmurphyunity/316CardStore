@@ -3,6 +3,8 @@ from flask import (
 )
 from mainpkg import db
 
+import random
+
 bp = Blueprint('legos', __name__, url_prefix='/legos')
 
 @bp.route('/legolistings',  methods=('GET', 'POST'))
@@ -67,7 +69,7 @@ def legolistings():
             checkval = str(topret[0][1])
             checkval = str(topret[0][0])
         except:
-            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
+            mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE astar > 4 ORDER BY astar DESC")
             top = mycursor.fetchall()
             topret = []
             for x in top[:4]:
@@ -80,7 +82,7 @@ def legolistings():
 
 
     except:
-        mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect ORDER BY astar DESC")
+        mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE astar > 4 ORDER BY astar DESC")
         top = mycursor.fetchall()
         print(top)
         topret = []
@@ -139,7 +141,7 @@ def legolistings():
     elite = mycursor.fetchall()
     #print(elite[:10])
     eliteret = []
-    for x in elite[:10]:
+    for x in elite[:6]:
         mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
         elitecur = mycursor.fetchone()
         eliteret.append(elitecur)
@@ -157,7 +159,7 @@ def legolistings():
     quick = mycursor.fetchall()
     #print(quick[:10])
     quickret = []
-    for x in quick[:10]:
+    for x in quick[:6]:
         mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
         quickcur = mycursor.fetchone()
         quickret.append(quickcur)
@@ -175,7 +177,7 @@ def legolistings():
     longb = mycursor.fetchall()
     #print(longb[:10])
     longret = []
-    for x in longb[:10]:
+    for x in longb[:6]:
         mycursor.execute("SELECT theme, year, name, minifigs, pieces, min(price), imageURL FROM Lego WHERE id = '" + str(x[0]) + "' GROUP BY theme, year, name, minifigs, pieces, imageURL")
         longcur = mycursor.fetchone()
         longret.append(longcur)
