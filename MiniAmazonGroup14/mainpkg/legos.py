@@ -56,8 +56,8 @@ def legolistings():
         topret = mycursor.fetchall()
         topret = topret[:4]
         firsttitle = "Recommended for You"
-
-        if topret = []:
+        
+        if topret = [] or topret = "" or topret = [()]:
             mycursor.execute("SELECT legoid, astar FROM (SELECT legoid, AVG(stars) AS astar FROM Review GROUP BY legoid) AS averageselect WHERE averageselect.astar > 4 ORDER BY astar DESC")
             top = mycursor.fetchall()
             topret = []
