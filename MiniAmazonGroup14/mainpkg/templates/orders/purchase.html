@@ -14,6 +14,11 @@
       background-color: #012169;
       color: white;
     } 
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
   
     <h1>Purchase Number: {{ items[0][0] }}</h1>
@@ -35,7 +40,7 @@
           
           <th><img class="banner" src={{ item[7] }}></th>
           
-          <th><a href="{{ url_for('legos.legopage', legoid = item[5] ) }}">{{ item[3] }}</a> </th>
+          <th><a href="{{ url_for('legos.legopage', name = item[3], theme = item[8], year = item[9], minifigs = item[10], pieces = item[11] ) }}">{{ item[3] }}</a> </th>
           <!--make button link to lego page-->
             <th> ${{ item[4] }} </th>
             <th> {{ item[2] }} </th>

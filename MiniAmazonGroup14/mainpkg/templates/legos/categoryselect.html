@@ -10,6 +10,8 @@
       padding: 1em 1.5em;
       text-decoration: none;
       text-transform: uppercase;
+      margin-bottom: 5px;
+      display: inline-block;
     }
   </style>
   
@@ -19,16 +21,16 @@
   <h3>Theme</h3>
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'creatorexpert' ) }}">Creator Expert</a>
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'duplo' ) }}">Duplo</a>
-  <br>
+  
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'starwars' ) }}">Star Wars</a>
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'harrypotter' ) }}">Harry Potter</a>
-  <br>
+  
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'ninjago' ) }}">Ninjago</a>
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'castle' ) }}">Castle</a>
-  <br>
+ 
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'marvelsuperheroes' ) }}">Marvel Super Heroes</a>
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'sports' ) }}">Sports</a>
-  <br>
+  
   <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'city' ) }}">City</a>
   <form method="post">
     <label for="theme">Theme</label>
@@ -39,23 +41,23 @@
   <br>
 
   <h3>Pieces</h3>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces0' ) }}">0-100</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces1' ) }}">100-250</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces2' ) }}">250-500</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces3' ) }}">500-1000</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces4' ) }}">1000-2000</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces5' ) }}">2000-3500</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces6' ) }}">3500-5000</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces7' ) }}">5000-10000</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'pieces8' ) }}">10000+</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces0' ) }}">0-100</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces1' ) }}">100-250</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces2' ) }}">250-500</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces3' ) }}">500-1000</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces4' ) }}">1000-2000</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces5' ) }}">2000-3500</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces6' ) }}">3500-5000</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces7' ) }}">5000-10000</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'pieces8' ) }}">10000+</a>
   <form method="post">
     <label for="minpieces">Min Pieces:</label>
     <input type="minpieces" name="minpieces" id="minpieces" required>
@@ -67,13 +69,13 @@
   <br>
 
   <h3>Minifigs</h3>
-  <a href="{{ url_for('legos.category', categoryid = 'minifigs0' ) }}">0-2</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'minifigs1' ) }}">3-5</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'minifigs2' ) }}">6-9</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'minifigs3' ) }}">10+</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'minifigs0' ) }}">0-2</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'minifigs1' ) }}">3-5</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'minifigs2' ) }}">6-9</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'minifigs3' ) }}">10+</a>
   <form method="post">
     <label for="minminifigs">Min Minifigs:</label>
     <input type="minminifigs" name="minminifigs" id="minminifigs" required>
@@ -85,17 +87,17 @@
   <br>
 
   <h3>Price</h3>
-  <a href="{{ url_for('legos.category', categoryid = 'price0' ) }}">0-25</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'price1' ) }}">25-50</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'price2' ) }}">50-100</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'price3' ) }}">100-200</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'price4' ) }}">200-500</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = 'price5' ) }}">500+</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'price0' ) }}">0-25</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'price1' ) }}">25-50</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'price2' ) }}">50-100</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'price3' ) }}">100-200</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'price4' ) }}">200-500</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'price5' ) }}">500+</a>
   <form method="post">
     <label for="minprice">Min Price:</label>
     <input type="minprice" name="minprice" id="minprice" required>
@@ -107,13 +109,13 @@
   <br>
 
   <h3>Year</h3>
-  <a href="{{ url_for('legos.category', categoryid = 'before2000' ) }}">Before 2000</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = '2000to2010' ) }}">2000 - 2010</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = '2010to2015' ) }}">2010 - 2015</a>
-  <br>
-  <a href="{{ url_for('legos.category', categoryid = '2015to2020' ) }}">2015 - 2020</a>
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = 'before2000' ) }}">Before 2000</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = '2000to2010' ) }}">2000 - 2010</a>
+ 
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = '2010to2015' ) }}">2010 - 2015</a>
+  
+  <a class="legolistinglink" href="{{ url_for('legos.category', categoryid = '2015to2020' ) }}">2015 - 2020</a>
   <form method="post">
     <label for="minyear">Min Year:</label>
     <input type="minyear" name="minyear" id="minyear" required>

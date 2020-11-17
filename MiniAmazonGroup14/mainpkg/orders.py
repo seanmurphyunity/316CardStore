@@ -36,10 +36,11 @@ def purchase():
     sql = "SELECT * FROM users WHERE userid = '" + sessionid + "'"
     mycursor.execute(sql)
     test = mycursor.fetchall()
-    mycursor.execute("SELECT bh.purchase_num, bh.date_bought, ci.quantity, l.name, l.price, l.id, se.userid,l.imageURL FROM Lego l, buyer_history bh, checkout c, cart_item ci, sold s, seller se WHERE c.purchase_num = %s and bh.purchase_num = c.purchase_num and c.cartid = ci.cartid and l.id = ci.legoid and s.date_sold = bh.date_bought and s.legoid = ci.legoid and s.sellerid = se.sellerid", (pnum, ))
+    mycursor.execute("SELECT bh.purchase_num, bh.date_bought, ci.quantity, l.name, l.price, l.id, se.userid,l.imageURL, l.theme, l.year, l.minifigs, l.pieces FROM Lego l, buyer_history bh, checkout c, cart_item ci, sells s, seller se WHERE c.purchase_num = %s and bh.purchase_num = c.purchase_num and c.cartid = ci.cartid and l.id = ci.legoid and s.legoid = ci.legoid and s.sellerid = se.sellerid", (pnum, ))
     # and b.userid = u.userid and b.userid = %s and b.buyerid = bh.buyerid and bh.purchase_num = c.purchase_num and ci.cartid = c.cartid and l.id = ci.legoid", (sessionid, ))
     #mycursor.execute("SELECT * FROM buyer_history")
     items = mycursor.fetchall()
+    print(items)
     try:
         mydb = db.getdb()
         mycursor = mydb.cursor()
@@ -86,7 +87,7 @@ def sales_history():
     mycursor.execute("SELECT sh.sales_num, sh.date_bought FROM seller s, sales_history sh WHERE s.userid = %s and s.sellerid = sh.sellerid", (sessionid, ))
     #mycursor.execute("SELECT * FROM buyer_history")
     items = mycursor.fetchall()
-    print(items)
+    #print(items)
     return render_template('orders/sales_history.html', items =items)
 
 @bp.route('/sale', methods=('GET', 'POST'))
@@ -103,11 +104,11 @@ def sale():
     mycursor.execute(sql)
     test = mycursor.fetchall()
     print(test)
-    mycursor.execute("SELECT sh.sales_num, sh.date_bought, so.quantity, l.name, l.price, b.userid, l.id, l.imageURL FROM Lego l, sales_history sh, sold so, buyer b WHERE sh.sales_num = %s and sh.sales_num = so.sales_num and  l.id = so.legoid and so.buyerid = b.buyerid", (snum, ))
+    mycursor.execute("SELECT sh.sales_num, sh.date_bought, so.quantity, l.name, l.price, b.userid, l.id, l.imageURL, l.theme, l.year, l.minifigs, l.pieces FROM Lego l, sales_history sh, sold so, buyer b WHERE sh.sales_num = %s and sh.sales_num = so.sales_num and l.id = so.legoid and so.buyerid = b.buyerid", (snum, ))
     # and b.userid = u.userid and b.userid = %s and b.buyerid = bh.buyerid and bh.purchase_num = c.purchase_num and ci.cartid = c.cartid and l.id = ci.legoid", (sessionid, ))
     #mycursor.execute("SELECT * FROM buyer_history")
     items = mycursor.fetchall()
-    #print(items)
+    print(items)
     return render_template('orders/sale.html', items =items)
 
 def genReviewId():

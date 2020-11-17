@@ -58,7 +58,7 @@ def legolistings():
         topret = mycursor.fetchall()
         topret = topret[:4]
         firsttitle = "Recommended for You"
-        print(topret)
+        #print(topret)
         
         try:
             checkval = str(topret[0][6])
@@ -193,7 +193,7 @@ def legopage(name,theme, year, minifigs, pieces):
     mycursor = mydb.cursor()
         #sql = "SELECT * FROM Lego WHERE id = %s" 
         #val = (setid)
-    mycursor.execute('SELECT S.sellerid, S.legoid, S.quantity FROM sells S, Lego L WHERE L.name = %s and L.id = S.legoid', (name, ))
+    mycursor.execute('SELECT S.sellerid, S.legoid, S.quantity, L.price FROM sells S, Lego L WHERE L.name = %s and L.id = S.legoid', (name, ))
     sellers = mycursor.fetchall()
     if sellers == []:
         stock = 'Out of Stock'

@@ -46,9 +46,11 @@
   {% for sell in sellers %}
   <h3> Seller: {{sell[0] }}</h3>
   <h3> Quantity: {{sell[2] }} </h3>
+  <h3>Price: {{sell[3]}}</h3>
   <form method="post" action="{{ url_for('legos.addtocart')}}">
     <input type="hidden" name= "legoid" id = "legoid" value = {{sell[1]}}>
     <input type="hidden" name= "sellerid" id = "sellerid" value = {{sell[0]}}>
+    
     <label for="quantity">Quantity</label>
     <input type="quantity" name="quantity" id="quantity" required>
     <br>

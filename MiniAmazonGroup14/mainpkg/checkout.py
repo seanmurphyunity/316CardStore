@@ -21,9 +21,10 @@ def checkout():
         mycursor = mydb.cursor()
         mycursor.execute('SELECT cur_cart FROM users WHERE userid = %s' , (sessionid, ))
         cartid = mycursor.fetchone()[0]
+        print(sessionid)
         mycursor.execute('SELECT buyerid FROM buyer WHERE userid = %s' , (sessionid, ))
-        buyerid = mycursor.fetchone()[0]
-        print(mycursor.fetchone())
+        buyerid = mycursor.fetchall()[0][0]
+        print(buyerid)
         #logedin = "abc@abc.com"
         totalprice = float(request.form['total'])
         #cartid = request.form['cartid']
@@ -54,7 +55,17 @@ def checkout():
             mycursor.execute(sql, val)
             mydb.commit()
             createnewcart(sessionid)
-            sold(cartid, sessionid)
+            mycursor.execute("select legoid from cart_item where cartid = %s", (cartid, ))
+            itemsbought = mycursor.fetchall()
+            
+            for x in itemsbought[0]: 
+                print("now")
+                print(x)
+                print("after")
+                sold(x, cartid, time)
+                print("now")
+                print(x)
+                print("after")
             return render_template('checkout/checkoutpage.html')
         else: 
 
@@ -76,7 +87,7 @@ def createnewcart(sessionid):
     return 
 
 @bp.route('/checkoutpage', methods=('GET', 'POST'))
-def sold(cartid, sessionid):
+def sold(legoid, cartid, date):
     try: 
         sessionid = session['email']
     except:
@@ -86,14 +97,15 @@ def sold(cartid, sessionid):
         #totalprice = request.form['total']
         
         #snum = rangensnum()
-      
+        print(sessionid)
         print(cartid)
         mydb = db.getdb()
         mycursor = mydb.cursor()
-        
-        sql = "select ci.legoid, s.sellerid, ca.buyerid, c.date_bought, ci.quantity, s.quantity, l.price from checkout c, cart_item ci, sells s, cart ca, Lego l where c.cartid = %s and l.id = ci.legoid and c.cartid = ci.cartid and ci.legoid = s.legoid and ci.cartid = ca.cartid"
-        val = (cartid, )
-        mycursor.execute(sql, val)
+        #sql = "select s.legoid, s.sellerid, b.buyerid, ci.quantity, s.quantity, l.price from sells s, cart_item ci, Lego l, buyer b where ci.cartid = %s and s.legoid = %s and s.legoid = l.id and b.userid = %s"
+        #sql = "select ci.legoid, s.sellerid, ca.buyerid, c.date_bought, ci.quantity, s.quantity, l.price from checkout c, cart_item ci, sells s, cart ca, Lego l where c.cartid = %s and l.id = ci.legoid and c.cartid = ci.cartid and ci.legoid = s.legoid and ci.cartid = ca.cartid"
+        mycursor.execute("select l.id, s.sellerid, b.buyerid, ci.quantity, s.quantity, l.price from sells s, cart_item ci, Lego l, buyer b where ci.cartid = %s and s.legoid = %s and s.legoid = l.id and b.userid = %s", (cartid, legoid, sessionid))
+        #val = (cartid, legoid, sessionid)
+        #mycursor.execute(sql, val)
         items = mycursor.fetchall()
         
         print(items)
@@ -101,10 +113,10 @@ def sold(cartid, sessionid):
             snum = rangensnum()
             #inserts sold items 
             sql1  = "Insert into sold values(%s, %s, %s,%s, %s, %s)" 
-            val1 = (i[1], i[0],i[2],i[3], snum, i[4])
+            val1 = (i[1], i[0],i[2],date, snum, i[3])
             mycursor.execute(sql1, val1)
             mydb.commit()
-            newq = i[4] - i[5]
+            newq = i[4] - i[3]
             #updates q available 
             sql2  = "update sells set quantity = %s where sellerid = %s and legoid  = %s" 
             val2 = (newq, i[1], i[0])
@@ -112,14 +124,16 @@ def sold(cartid, sessionid):
             mydb.commit()
             # puts sale into sales history 
             sql3 = "insert into sales_history values(%s, %s, %s)"
-            val3 = (snum, i[1],i[3])
+            val3 = (snum, i[1],date)
             mycursor.execute(sql3, val3) 
             mydb.commit()
             #adds money to seller
             mycursor.execute("Select userid from seller where sellerid = %s", (i[1],))
+            #print(mycursor.fetchall())
             user = mycursor.fetchall()[0][0]
+            print(user)
             sql4 = "Update users set balance = %s where userid = %s"
-            p = i[6] * i[5]
+            p = i[3] * i[5]
             val4 = (p, user)
             mycursor.execute(sql4, val4) 
             mydb.commit()
