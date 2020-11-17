@@ -23,7 +23,7 @@
         <img src={{ lego[7] }}>
         <br>
         
-        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', legoid = lego[0] ) }}">{{ lego[3] }}</a> 
+        <a style="text-align:center; font-size:200%" href="{{ url_for('legos.legopage', name = lego[3], theme = lego[1], year = lego[2], minifigs = lego[4], pieces = lego[5] ) }}">{{ lego[3] }}</a> 
         
         <h1 style="text-align: center;">${{ lego[6] }}</h1>
         <h2> Theme: {{ lego[1] }} </h2>

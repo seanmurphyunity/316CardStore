@@ -111,6 +111,7 @@ def sold(legoid, cartid, date):
         print(items)
         for i in items:
             snum = rangensnum()
+            print(snum)
             #inserts sold items 
             sql1  = "Insert into sold values(%s, %s, %s,%s, %s, %s)" 
             val1 = (i[1], i[0],i[2],date, snum, i[3])
@@ -186,7 +187,7 @@ def rangensnum():
     mycursor.execute(sql)
     nums = mycursor.fetchall()
     if s in nums: 
-        rangensnum
+        rangensnum()
     else: 
         return s  
     
@@ -198,7 +199,7 @@ def rangenpnum():
     mycursor.execute(sql)
     nums = mycursor.fetchall()
     if p in nums: 
-        rangenpnum
+        rangenpnum()
     else: 
         return p
 
@@ -210,6 +211,6 @@ def rangencartnum():
     mycursor.execute(sql)
     nums = mycursor.fetchall()
     if cart in nums: 
-        rangencartnum
+        rangencartnum()
     else: 
         return cart

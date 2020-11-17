@@ -606,7 +606,8 @@ def mylegos():
                 return render_template('legos/mylegos.html', legos = lego)
             else:
                 return render_template('legos/nolegos.html')
-        except:
+        except Exception as e:
+            print(e)
             return render_template('auth/mustlogin.html')
 
 def rangenlegonum(): 
